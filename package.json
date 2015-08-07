@@ -1,0 +1,13 @@
+{
+  "name": "jbhannah.net",
+  "description": "Homepage and blog of Jesse B. Hannah",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jbhannah/jbhannah.net"
+  },
+  "author": {
+    "name": "Jesse B. Hannah",
+    "url": "http://jbhannah.net"
+  },
+  "license": "MIT"
+}
