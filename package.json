@@ -10,5 +10,9 @@
     "name": "Jesse B. Hannah",
     "url": "http://jbhannah.net"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "babel-core": "^5.8.21",
+    "gulp": "^3.9.0"
+  }
 }
