@@ -2,6 +2,7 @@ import assign from 'lodash/object/assign';
 import frontMatter from 'front-matter';
 import gulp from 'gulp';
 import nunjucks from 'nunjucks';
+import path from 'path';
 import through from 'through2';
 
 const DEST = 'build';
@@ -19,6 +20,28 @@ let env = nunjucks.configure('templates', {
   watch: false
 });
 
+function getPermalink(filepath) {
+  let extname = path.extname(filepath);
+  let dirname = path.dirname(filepath);
+  let basename = path.basename(filepath);
+
+  if (basename !== 'index') {
+    dirname += '/' + basename;
+    basename = 'index';
+    extname = '.html';
+
+    filepath = path.join(dirname, basename + extname);
+  }
+
+  return path.join('/', path.relative('.', filepath))
+    .replace(/^\/pages\//, '/')
+    .replace(/index\.html$/, '');
+}
+
+function getDestPathFromPermalink(permalink) {
+  return path.resolve(permalink.replace(/\/$/, '/index.html').slice(1));
+}
+
 function renderContent () {
   let files = [];
   let site = assign(siteData);
@@ -32,7 +55,7 @@ function renderContent () {
           contents = yaml.body;
           file.data = {
             site: site,
-            page: assign(yaml.attributes)
+            page: assign({permalink: getPermalink(file.path)}, yaml.attributes)
           };
         }
 
