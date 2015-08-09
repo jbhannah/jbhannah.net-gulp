@@ -23,7 +23,8 @@ let env = nunjucks.configure('templates', {
 function getPermalink(filepath) {
   let extname = path.extname(filepath);
   let dirname = path.dirname(filepath);
-  let basename = path.basename(filepath);
+  let basename = path.basename(filepath, extname);
+  console.log(basename);
 
   if (basename !== 'index') {
     dirname += '/' + basename;
