@@ -10,6 +10,8 @@
     </title>
   </head>
   <body>
-    
+    {% block content %}
+      {{ page.content }}
+    {% endblock %}
   </body>
 </html>
