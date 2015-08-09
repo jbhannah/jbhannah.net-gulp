@@ -50,7 +50,8 @@ function renderContent () {
 
 gulp.task('pages', function () {
   gulp.src(['./pages/*'], {base: '.'})
-    .pipe(renderContent());
+    .pipe(renderContent())
+    .pipe(gulp.dest(DEST));
 });
 
 gulp.task('default', ['pages']);
