@@ -1,4 +1,5 @@
 import assign from 'lodash/object/assign';
+import del from 'del';
 import frontMatter from 'front-matter';
 import gulp from 'gulp';
 import nunjucks from 'nunjucks';
@@ -94,6 +95,10 @@ gulp.task('pages', function () {
     .pipe(renderContent())
     .pipe(renderTemplate())
     .pipe(gulp.dest(DEST));
+});
+
+gulp.task('clean', function (done) {
+  del(DEST, done);
 });
 
 gulp.task('default', ['pages']);
