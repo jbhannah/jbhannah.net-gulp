@@ -1,13 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <title>
-      {% if page.title %}
-        {{ page.title }} &mdash;
-      {% endif %}
-      {{ site.title }}
-    </title>
+    {% include '_head.html' %}
   </head>
   <body>
     {% block content %}
