@@ -42,7 +42,7 @@ function getDestPathFromPermalink(permalink) {
   return path.resolve(permalink.replace(/\/$/, '/index.html').slice(1));
 }
 
-function renderContent () {
+function renderContent() {
   let files = [];
   let site = assign(siteData);
 
@@ -71,9 +71,27 @@ function renderContent () {
   );
 }
 
+function renderTemplate() {
+  return through.obj(
+      function (file, enc, cb) {
+        let content = file.contents.toString();
+        file.data.page.content = nunjucks.renderString(content, file.data);
+
+        let template = file.data.page.template;
+        file.contents = new Buffer(nunjucks.render(template, file.data));
+
+        file.path = getDestPathFromPermalink(file.data.page.permalink);
+
+        this.push(file);
+        cb();
+      }
+  );
+}
+
 gulp.task('pages', function () {
   gulp.src(['./pages/*'], {base: '.'})
     .pipe(renderContent())
+    .pipe(renderTemplate())
     .pipe(gulp.dest(DEST));
 });
 
