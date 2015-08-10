@@ -1,12 +1,16 @@
 import assign from 'lodash/object/assign';
+import connect from 'connect';
 import del from 'del';
 import frontMatter from 'front-matter';
 import gulp from 'gulp';
 import nunjucks from 'nunjucks';
 import path from 'path';
+import serveStatic from 'serve-static';
 import through from 'through2';
+import yargs from 'yargs';
 
 const DEST = 'build';
+const PORT = 4000;
 
 let siteData = {
   title: 'Jesse B. Hannah',
@@ -18,7 +22,7 @@ let siteData = {
 
 let env = nunjucks.configure('templates', {
   autoescape: false,
-  watch: false
+  watch: true // required to see template changes with gulp serve
 });
 
 function getPermalink(filepath) {
@@ -74,7 +78,7 @@ function renderContent() {
 
 function renderTemplate() {
   return through.obj(
-    function (file, enc, cb) {
+    function (file, enc, done) {
       let content = file.contents.toString();
       file.data.page.content = nunjucks.renderString(content, file.data);
 
@@ -84,7 +88,7 @@ function renderTemplate() {
       file.path = getDestPathFromPermalink(file.data.page.permalink);
 
       this.push(file);
-      cb();
+      done();
     }
   );
 }
@@ -101,3 +105,10 @@ gulp.task('clean', function (done) {
 });
 
 gulp.task('default', ['pages']);
+
+gulp.task('serve', ['default'], function () {
+  let port = yargs.argv.port || yargs.argv.p || PORT;
+  connect().use(serveStatic(DEST)).listen(port);
+
+  gulp.watch(['./pages/*', './templates/*'], ['pages']);
+});
