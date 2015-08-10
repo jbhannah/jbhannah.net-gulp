@@ -3,6 +3,7 @@ import connect from 'connect';
 import del from 'del';
 import frontMatter from 'front-matter';
 import gulp from 'gulp';
+import morgan from 'morgan';
 import nunjucks from 'nunjucks';
 import path from 'path';
 import serveStatic from 'serve-static';
@@ -108,7 +109,11 @@ gulp.task('default', ['pages']);
 
 gulp.task('serve', ['default'], function () {
   let port = yargs.argv.port || yargs.argv.p || PORT;
-  connect().use(serveStatic(DEST)).listen(port);
+
+  connect()
+    .use(morgan('dev'))
+    .use(serveStatic(DEST))
+    .listen(port);
 
   gulp.watch(['./pages/*', './templates/*'], ['pages']);
 });
