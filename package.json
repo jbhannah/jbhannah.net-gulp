@@ -10,6 +10,11 @@
     "name": "Jesse B. Hannah",
     "url": "http://jbhannah.net"
   },
+  "scripts": {
+    "build": "gulp",
+    "start": "gulp serve",
+    "clean": "gulp clean"
+  },
   "license": "MIT",
   "devDependencies": {
     "babel-core": "^5.8.21",
