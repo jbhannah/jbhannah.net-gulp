@@ -1,6 +1,6 @@
 # jbhannah.net
 
-Homepage and weblog of Jesse B. Hannah.
+Homepage and weblog of Jesse B. Hannah. Directory structure and much of the Gulpfile is borrowed shamelessly from [philipwalton/blog](https://github.com/philipwalton/blog).
 
 ## Requirements
 
