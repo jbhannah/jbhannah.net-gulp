@@ -4,7 +4,7 @@ Homepage and weblog of Jesse B. Hannah. Directory structure and much of the Gulp
 
 ## Requirements
 
-* io.js 3.0
+* io.js 3.x
 * npm
 * `gulp-cli`
 
