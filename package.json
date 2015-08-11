@@ -11,6 +11,12 @@
     "name": "Jesse B. Hannah",
     "url": "https://jbhannah.net"
   },
+  "contributors": [
+    {
+      "name": "Philip Walton",
+      "url": "http://philipwalton.com"
+    }
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/jbhannah/jbhannah.net.git"
