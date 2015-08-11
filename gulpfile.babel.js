@@ -95,7 +95,7 @@ function renderTemplate() {
 }
 
 gulp.task('pages', function () {
-  gulp.src(['./pages/*'], {base: '.'})
+  return gulp.src(['./pages/*'], {base: '.'})
     .pipe(renderContent())
     .pipe(renderTemplate())
     .pipe(gulp.dest(DEST));
