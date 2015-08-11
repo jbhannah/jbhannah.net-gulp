@@ -10,6 +10,9 @@
     "name": "Jesse B. Hannah",
     "url": "http://jbhannah.net"
   },
+  "engines": {
+    "iojs": "3.x"
+  },
   "scripts": {
     "build": "gulp",
     "start": "gulp serve",
