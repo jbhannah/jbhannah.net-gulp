@@ -1,8 +1,10 @@
 import assign from 'lodash/object/assign';
 import connect from 'connect';
+import connectLivereload from 'connect-livereload';
 import del from 'del';
 import frontMatter from 'front-matter';
 import gulp from 'gulp';
+import livereload from 'gulp-livereload';
 import morgan from 'morgan';
 import nunjucks from 'nunjucks';
 import path from 'path';
@@ -98,7 +100,8 @@ gulp.task('pages', function () {
   return gulp.src(['./pages/*'], {base: '.'})
     .pipe(renderContent())
     .pipe(renderTemplate())
-    .pipe(gulp.dest(DEST));
+    .pipe(gulp.dest(DEST))
+    .pipe(livereload());
 });
 
 gulp.task('clean', function (done) {
@@ -110,8 +113,11 @@ gulp.task('default', ['pages']);
 gulp.task('serve', ['default'], function () {
   let port = yargs.argv.port || yargs.argv.p || PORT;
 
+  livereload.listen();
+
   connect()
     .use(morgan('dev'))
+    .use(connectLivereload())
     .use(serveStatic(DEST))
     .listen(port);
 
