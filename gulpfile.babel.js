@@ -14,6 +14,7 @@ import yargs from 'yargs';
 
 const DEST = 'build';
 const PORT = 4000;
+const LR_PORT = 35729;
 
 let siteData = {
   title: 'Jesse B. Hannah',
@@ -113,11 +114,15 @@ gulp.task('default', ['pages']);
 gulp.task('serve', ['default'], function () {
   let port = yargs.argv.port || yargs.argv.p || PORT;
 
-  livereload.listen();
+  livereload.listen({
+    port: LR_PORT
+  });
 
   connect()
     .use(morgan('dev'))
-    .use(connectLivereload())
+    .use(connectLivereload({
+      port: LR_PORT
+    }))
     .use(serveStatic(DEST))
     .listen(port);
 
