@@ -1,9 +1,11 @@
 @import (inline) "node_modules/normalize.css/normalize.css";
 
+@import "./base/elements";
+
 .container {
   display: flex;
   flex-direction: column;
-  width: 40em;
+  max-width: 42em;
   margin: 0 auto;
 
   @media(min-width: 800px) {
@@ -24,7 +26,6 @@
 }
 
 .site-content {
-  @media(min-width: 800px) {
-    width: 40em;
-  }
+  width: 100%;
+  padding: 1em;
 }
