@@ -123,11 +123,16 @@ gulp.task('pages', function () {
     .pipe(livereload());
 });
 
+gulp.task('static', function () {
+  return gulp.src(['./static/**/*'], {dot: true})
+    .pipe(gulp.dest(DEST));
+});
+
 gulp.task('clean', function (done) {
   del(DEST, done);
 });
 
-gulp.task('default', ['less', 'pages']);
+gulp.task('default', ['less', 'pages', 'static']);
 
 gulp.task('serve', ['default'], function () {
   let port = yargs.argv.port || yargs.argv.p || PORT;
