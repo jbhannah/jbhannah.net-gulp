@@ -4,11 +4,13 @@ import connectLivereload from 'connect-livereload';
 import del from 'del';
 import frontMatter from 'front-matter';
 import gulp from 'gulp';
+import less from 'gulp-less';
 import livereload from 'gulp-livereload';
 import morgan from 'morgan';
 import nunjucks from 'nunjucks';
 import path from 'path';
 import serveStatic from 'serve-static';
+import sourcemaps from 'gulp-sourcemaps';
 import through from 'through2';
 import yargs from 'yargs';
 
@@ -97,6 +99,15 @@ function renderTemplate() {
   );
 }
 
+gulp.task('less', function () {
+  return gulp.src(['./assets/css/main.less'], {base: '.'})
+    .pipe(sourcemaps.init())
+    .pipe(less())
+    .pipe(sourcemaps.write('.'))
+    .pipe(gulp.dest(DEST))
+    .pipe(livereload());
+});
+
 gulp.task('pages', function () {
   return gulp.src(['./pages/*'], {base: '.'})
     .pipe(renderContent())
@@ -109,7 +120,7 @@ gulp.task('clean', function (done) {
   del(DEST, done);
 });
 
-gulp.task('default', ['pages']);
+gulp.task('default', ['less', 'pages']);
 
 gulp.task('serve', ['default'], function () {
   let port = yargs.argv.port || yargs.argv.p || PORT;
@@ -127,4 +138,5 @@ gulp.task('serve', ['default'], function () {
     .listen(port);
 
   gulp.watch(['./pages/*', './templates/*'], ['pages']);
+  gulp.watch(['./assets/css/**/*.less'], ['less']);
 });
