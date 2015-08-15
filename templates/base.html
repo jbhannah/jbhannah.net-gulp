@@ -4,6 +4,12 @@
     {% include '_head.html' %}
   </head>
   <body>
+    <header class="site-header">
+      <a class="site-header__link" href="/" title="Homepage">
+        <h1 class="site-header__title">{{ site.title }}</h1>
+        <p class="site-header__subtitle">{{ site.subtitle }}</p>
+      </a>
+    </header>
     {% block content %}
       {{ page.content }}
     {% endblock %}
