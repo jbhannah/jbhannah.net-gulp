@@ -1,27 +1,45 @@
 .container {
   display: flex;
   flex-direction: column;
-  max-width: 42em;
+  max-width: 68rem;
   margin: 0 auto;
 
   @media @break-lg {
     flex-direction: row;
   }
+
+  @media @break-xl {
+    max-width: 42rem;
+  }
 }
 
 .site-header {
+  padding: 0 1rem;
+
   @media @break-lg {
-    width: 10em;
-    margin-left: -10em;
+    width: 12rem;
+    padding: 0;
+  }
+
+  @media @break-xl {
+    margin-left: -12rem;
   }
 
   .__link {
     display: block;
     text-decoration: none;
   }
+
+  .__title {
+    font-size: 1em;
+
+    @media @break-sm {
+      font-size: 1.167em;
+    }
+  }
 }
 
 .site-content {
-  width: 100%;
-  padding: 0 1em;
+  max-width: 42rem;
+  padding: 0 1rem;
 }
