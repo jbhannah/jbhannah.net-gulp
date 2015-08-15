@@ -1,7 +1,25 @@
 @import (inline) "node_modules/normalize.css/normalize.css";
 
+.container {
+  display: flex;
+  flex-direction: row;
+  width: 40em;
+  margin: 0 auto;
+}
+
 .site-header {
+  @media(min-width: 800px) {
+    width: 10em;
+    margin-left: -10em;
+  }
+
   .site-header__link {
     display: block;
+  }
+}
+
+.site-content {
+  @media(min-width: 800px) {
+    width: 40em;
   }
 }
