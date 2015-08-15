@@ -35,6 +35,7 @@
     "gulp": "^3.9.0",
     "gulp-less": "^3.0.3",
     "gulp-livereload": "^3.8.0",
+    "gulp-minify-css": "^1.2.0",
     "gulp-sourcemaps": "^1.5.2",
     "lodash": "^3.10.1",
     "morgan": "^1.6.1",

@@ -6,6 +6,7 @@ import frontMatter from 'front-matter';
 import gulp from 'gulp';
 import less from 'gulp-less';
 import livereload from 'gulp-livereload';
+import minifyCSS from 'gulp-minify-css';
 import morgan from 'morgan';
 import nunjucks from 'nunjucks';
 import path from 'path';
@@ -103,6 +104,7 @@ gulp.task('less', function () {
   return gulp.src(['./assets/css/main.less'], {base: '.'})
     .pipe(sourcemaps.init())
     .pipe(less())
+    .pipe(minifyCSS())
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(DEST))
     .pipe(livereload());
