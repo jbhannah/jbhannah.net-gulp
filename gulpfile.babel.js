@@ -4,6 +4,7 @@ import connectLivereload from 'connect-livereload';
 import del from 'del';
 import frontMatter from 'front-matter';
 import gulp from 'gulp';
+import gulpIf from 'gulp-if';
 import less from 'gulp-less';
 import livereload from 'gulp-livereload';
 import minifyCSS from 'gulp-minify-css';
@@ -31,6 +32,10 @@ let env = nunjucks.configure('templates', {
   autoescape: false,
   watch: true // required to see template changes with gulp serve
 });
+
+function isProd() {
+  return process.env.NODE_ENV === 'production';
+}
 
 function getPermalink(filepath) {
   let extname = path.extname(filepath);
@@ -102,10 +107,10 @@ function renderTemplate() {
 
 gulp.task('less', function () {
   return gulp.src(['./assets/css/main.less'], {base: '.'})
-    .pipe(sourcemaps.init())
+    .pipe(gulpIf(!isProd(), sourcemaps.init()))
     .pipe(less())
     .pipe(minifyCSS())
-    .pipe(sourcemaps.write('.'))
+    .pipe(gulpIf(!isProd(), sourcemaps.write('.')))
     .pipe(gulp.dest(DEST))
     .pipe(livereload());
 });
