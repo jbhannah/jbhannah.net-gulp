@@ -33,6 +33,7 @@
     "del": "^1.2.0",
     "front-matter": "^1.0.0",
     "gulp": "^3.9.0",
+    "gulp-autoprefixer": "^2.3.1",
     "gulp-if": "^1.2.5",
     "gulp-less": "^3.0.3",
     "gulp-livereload": "^3.8.0",

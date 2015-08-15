@@ -1,4 +1,5 @@
 import assign from 'lodash/object/assign';
+import autoprefixer from 'gulp-autoprefixer';
 import connect from 'connect';
 import connectLivereload from 'connect-livereload';
 import del from 'del';
@@ -109,6 +110,7 @@ gulp.task('less', function () {
   return gulp.src(['./assets/css/main.less'], {base: '.'})
     .pipe(gulpIf(!isProd(), sourcemaps.init()))
     .pipe(less())
+    .pipe(autoprefixer())
     .pipe(minifyCSS())
     .pipe(gulpIf(!isProd(), sourcemaps.write('.')))
     .pipe(gulp.dest(DEST))
