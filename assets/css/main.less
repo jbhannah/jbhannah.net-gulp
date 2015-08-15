@@ -2,30 +2,4 @@
 
 @import "./base/elements";
 
-.container {
-  display: flex;
-  flex-direction: column;
-  max-width: 42em;
-  margin: 0 auto;
-
-  @media(min-width: 800px) {
-    flex-direction: row;
-  }
-}
-
-.site-header {
-  @media(min-width: 800px) {
-    width: 10em;
-    margin-left: -10em;
-  }
-
-  .__link {
-    display: block;
-    text-decoration: none;
-  }
-}
-
-.site-content {
-  width: 100%;
-  padding: 0 1em;
-}
+@import "./components/site";
