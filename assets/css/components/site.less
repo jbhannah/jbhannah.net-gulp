@@ -1,7 +1,7 @@
 .container {
   display: flex;
   flex-direction: column;
-  max-width: 54rem;
+  max-width: @header-width + @content-width;
   margin: 0 auto;
 
   @media @break-lg {
@@ -9,24 +9,24 @@
   }
 
   @media @break-xl {
-    max-width: 42rem;
+    max-width: @content-width;
   }
 }
 
 .site-header {
   width: 100%;
-  max-width: 42rem;
+  max-width: @content-width;
   margin: 0 auto;
   padding: 0 1rem;
 
   @media @break-lg {
-    width: 12rem;
+    width: @header-width;
     margin: 0;
     padding-right: 0;
   }
 
   @media @break-xl {
-    margin-left: -12rem;
+    margin-left: -1 * @header-width;
   }
 
   .__link {
@@ -45,7 +45,7 @@
 
 .site-content {
   width: 100%;
-  max-width: 42rem;
+  max-width: @content-width;
   margin: 0 auto;
   padding: 0 1rem;
 
