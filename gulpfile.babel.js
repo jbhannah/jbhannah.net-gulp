@@ -1,4 +1,5 @@
 import assign from 'lodash/object/assign';
+import autoprefixer from 'gulp-autoprefixer';
 import connect from 'connect';
 import connectLivereload from 'connect-livereload';
 import del from 'del';
@@ -6,7 +7,6 @@ import frontMatter from 'front-matter';
 import gulp from 'gulp';
 import gulpIf from 'gulp-if';
 import less from 'gulp-less';
-import LessPluginAutoprefix from 'less-plugin-autoprefix';
 import livereload from 'gulp-livereload';
 import minifyCSS from 'gulp-minify-css';
 import morgan from 'morgan';
@@ -33,8 +33,6 @@ let env = nunjucks.configure('templates', {
   autoescape: false,
   watch: true // required to see template changes with gulp serve
 });
-
-let autoprefix = new LessPluginAutoprefix();
 
 function isProd() {
   return process.env.NODE_ENV === 'production';
@@ -110,12 +108,11 @@ function renderTemplate() {
 
 gulp.task('less', function () {
   return gulp.src(['./assets/css/main.less'], {base: '.'})
-    //.pipe(gulpIf(!isProd(), sourcemaps.init()))
-    .pipe(less({
-      plugins: [autoprefix]
-    }))
+    .pipe(gulpIf(!isProd(), sourcemaps.init()))
+    .pipe(less())
+    .pipe(autoprefixer())
     .pipe(minifyCSS())
-    //.pipe(gulpIf(!isProd(), sourcemaps.write('.')))
+    .pipe(gulpIf(!isProd(), sourcemaps.write('.')))
     .pipe(gulp.dest(DEST))
     .pipe(livereload());
 });
