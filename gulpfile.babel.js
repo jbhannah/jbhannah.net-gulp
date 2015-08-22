@@ -5,6 +5,7 @@ import del from 'del';
 import frontMatter from 'front-matter';
 import gulp from 'gulp';
 import gulpIf from 'gulp-if';
+import gutil from 'gulp-util';
 import less from 'gulp-less';
 import lessPluginAutoprefix from 'less-plugin-autoprefix';
 import lessPluginCleanCSS from 'less-plugin-clean-css';
@@ -12,6 +13,7 @@ import livereload from 'gulp-livereload';
 import morgan from 'morgan';
 import nunjucks from 'nunjucks';
 import path from 'path';
+import plumber from 'gulp-plumber';
 import serveStatic from 'serve-static';
 import sourcemaps from 'gulp-sourcemaps';
 import through from 'through2';
@@ -39,12 +41,17 @@ let lessOpts = {};
 if (isProd()) {
   let cleanCSS = new lessPluginCleanCSS({ advanced: true });
   let autoprefix = new lessPluginAutoprefix();
-  
+
   lessOpts.plugins = [autopreifx, cleanCSS];
 }
 
 function isProd() {
   return process.env.NODE_ENV === 'production';
+}
+
+function streamError(err) {
+  gutil.beep();
+  gutil.log(err instanceof gutil.PluginError ? err.toString() : err.stack);
 }
 
 function getPermalink(filepath) {
@@ -101,15 +108,22 @@ function renderContent() {
 function renderTemplate() {
   return through.obj(
     function (file, enc, done) {
-      let content = file.contents.toString();
-      file.data.page.content = nunjucks.renderString(content, file.data);
+      try {
+        let content = file.contents.toString();
+        file.data.page.content = nunjucks.renderString(content, file.data);
 
-      let template = file.data.page.template;
-      file.contents = new Buffer(nunjucks.render(template, file.data));
+        let template = file.data.page.template;
+        file.contents = new Buffer(nunjucks.render(template, file.data));
 
-      file.path = getDestPathFromPermalink(file.data.page.permalink);
+        file.path = getDestPathFromPermalink(file.data.page.permalink);
 
-      this.push(file);
+        this.push(file);
+      } catch (err) {
+        this.emit('error', new gutil.PluginError('renderTemplate', err, {
+          fileName: file.path
+        }));
+      }
+
       done();
     }
   );
@@ -117,6 +131,7 @@ function renderTemplate() {
 
 gulp.task('less', function () {
   return gulp.src(['./assets/css/main.less'], {base: '.'})
+    .pipe(plumber({errorHandler: streamError}))
     .pipe(gulpIf(!isProd(), sourcemaps.init()))
     .pipe(less(lessOpts))
     .pipe(gulpIf(!isProd(), sourcemaps.write('.')))
@@ -126,6 +141,7 @@ gulp.task('less', function () {
 
 gulp.task('pages', function () {
   return gulp.src(['./pages/*'], {base: '.'})
+    .pipe(plumber({errorHandler: streamError}))
     .pipe(renderContent())
     .pipe(renderTemplate())
     .pipe(gulp.dest(DEST))
