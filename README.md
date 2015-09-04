@@ -1,5 +1,7 @@
 # jbhannah.net
 
+[![devDependency Status](https://david-dm.org/jbhannah/jbhannah.net/dev-status.svg)](https://david-dm.org/jbhannah/jbhannah.net#info=devDependencies)
+
 Homepage and weblog of Jesse B. Hannah.
 
 ## Requirements
