@@ -32,8 +32,7 @@ let siteData = {
 };
 
 let env = nunjucks.configure('templates', {
-  autoescape: false,
-  watch: true // required to see template changes with gulp serve
+  autoescape: false
 });
 
 let lessOpts = {};
@@ -159,7 +158,14 @@ gulp.task('clean', function (done) {
 
 gulp.task('default', ['less', 'pages', 'static']);
 
-gulp.task('serve', ['default'], function () {
+gulp.task('nunjucks:watch', function () {
+  env = nunjucks.configure('templates', {
+    autoescape: false,
+    watch: true // required to see template changes with gulp serve
+  });
+});
+
+gulp.task('serve', ['nunjucks:watch', 'default'], function () {
   let port = yargs.argv.port || yargs.argv.p || PORT;
 
   livereload.listen({
