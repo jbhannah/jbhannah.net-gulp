@@ -30,7 +30,7 @@
     "babel-core": "^5.8.21",
     "connect": "^3.4.0",
     "connect-livereload": "^0.5.3",
-    "del": "^1.2.0",
+    "del": "^2.0.0",
     "front-matter": "^1.0.0",
     "gulp": "^3.9.0",
     "gulp-if": "^1.2.5",
