@@ -172,7 +172,9 @@ gulp.task('serve', ['default'], function () {
       port: LR_PORT
     }))
     .use(serveStatic(DEST))
-    .listen(port);
+    .listen(port, function () {
+      console.log('Listening at http://localhost:' + port);
+    });
 
   gulp.watch(['./pages/*', './templates/*'], ['pages']);
   gulp.watch(['./assets/css/**/*.less'], ['less']);
