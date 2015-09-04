@@ -41,7 +41,7 @@ if (isProd()) {
   let cleanCSS = new lessPluginCleanCSS({ advanced: true });
   let autoprefix = new lessPluginAutoprefix();
 
-  lessOpts.plugins = [autopreifx, cleanCSS];
+  lessOpts.plugins = [autoprefix, cleanCSS];
 }
 
 function isProd() {
