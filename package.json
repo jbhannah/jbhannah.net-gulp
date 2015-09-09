@@ -50,7 +50,7 @@
     "yargs": "^3.18.0"
   },
   "engines": {
-    "iojs": "3.x"
+    "node": "4.x"
   },
   "private": true
 }
