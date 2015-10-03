@@ -33,7 +33,7 @@
     "del": "2.0.2",
     "front-matter": "1.0.0",
     "gulp": "3.9.0",
-    "gulp-if": "1.2.5",
+    "gulp-if": "2.0.0",
     "gulp-less": "3.0.3",
     "gulp-livereload": "3.8.1",
     "gulp-plumber": "1.0.1",
