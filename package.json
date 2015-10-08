@@ -47,7 +47,7 @@
     "nunjucks": "2.1.0",
     "serve-static": "1.10.0",
     "through2": "2.0.0",
-    "yargs": "3.26.0"
+    "yargs": "3.27.0"
   },
   "engines": {
     "node": "4.x"
