@@ -11,6 +11,7 @@ import lessPluginAutoprefix from 'less-plugin-autoprefix';
 import lessPluginCleanCSS from 'less-plugin-clean-css';
 import livereload from 'gulp-livereload';
 import MarkdownIt from 'markdown-it';
+import minifyHTML from 'gulp-minify-html';
 import morgan from 'morgan';
 import nunjucks from 'nunjucks';
 import path from 'path';
@@ -67,7 +68,7 @@ function getPermalink(filepath) {
     filepath = path.join(dirname, basename + extname);
   } else if (extname === '.md') {
     extname = '.html';
-    
+
     filepath = path.join(dirname, basename + extname);
   }
 
@@ -157,6 +158,7 @@ gulp.task('pages', function () {
     .pipe(plumber({errorHandler: streamError}))
     .pipe(renderContent())
     .pipe(renderTemplate())
+    .pipe(minifyHTML())
     .pipe(gulp.dest(DEST))
     .pipe(livereload());
 });
