@@ -10,6 +10,7 @@ import less from 'gulp-less';
 import lessPluginAutoprefix from 'less-plugin-autoprefix';
 import lessPluginCleanCSS from 'less-plugin-clean-css';
 import livereload from 'gulp-livereload';
+import MarkdownIt from 'markdown-it';
 import morgan from 'morgan';
 import nunjucks from 'nunjucks';
 import path from 'path';
@@ -64,6 +65,10 @@ function getPermalink(filepath) {
     extname = '.html';
 
     filepath = path.join(dirname, basename + extname);
+  } else if (extname === '.md') {
+    extname = '.html';
+    
+    filepath = path.join(dirname, basename + extname);
   }
 
   return path.join('/', path.relative('.', filepath))
@@ -79,6 +84,11 @@ function renderContent() {
   let files = [];
   let site = assign(siteData);
 
+  let md = new MarkdownIt({
+    html: true,
+    typographer: true
+  });
+
   return through.obj(
     function transform(file, enc, done) {
       let contents = file.contents.toString();
@@ -90,6 +100,10 @@ function renderContent() {
           site: site,
           page: assign({permalink: getPermalink(file.path)}, yaml.attributes)
         };
+      }
+
+      if (path.extname(file.path) === '.md') {
+        file.data.page.contents = contents = md.render(contents);
       }
 
       file.contents = new Buffer(contents);
@@ -139,7 +153,7 @@ gulp.task('less', function () {
 });
 
 gulp.task('pages', function () {
-  return gulp.src(['./pages/*'], {base: '.'})
+  return gulp.src(['./articles/*', './pages/*'], {base: '.'})
     .pipe(plumber({errorHandler: streamError}))
     .pipe(renderContent())
     .pipe(renderTemplate())
@@ -182,6 +196,6 @@ gulp.task('serve', ['nunjucks:watch', 'default'], function () {
       console.log('Listening at http://localhost:' + port);
     });
 
-  gulp.watch(['./pages/*', './templates/*'], ['pages']);
+  gulp.watch(['./articles/*', './pages/*', './templates/*'], ['pages']);
   gulp.watch(['./assets/css/**/*.less'], ['less']);
 });
