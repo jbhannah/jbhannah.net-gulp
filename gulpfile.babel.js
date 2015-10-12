@@ -7,10 +7,10 @@ import gulp from 'gulp';
 import gulpIf from 'gulp-if';
 import gutil from 'gulp-util';
 import less from 'gulp-less';
-import lessPluginAutoprefix from 'less-plugin-autoprefix';
-import lessPluginCleanCSS from 'less-plugin-clean-css';
+import LessPluginAutoprefix from 'less-plugin-autoprefix';
 import livereload from 'gulp-livereload';
 import MarkdownIt from 'markdown-it';
+import minifyCSS from 'gulp-minify-css';
 import minifyHTML from 'gulp-minify-html';
 import morgan from 'morgan';
 import nunjucks from 'nunjucks';
@@ -38,13 +38,8 @@ let env = nunjucks.configure('templates', {
 });
 
 let lessOpts = {};
-
-if (isProd()) {
-  let cleanCSS = new lessPluginCleanCSS({ advanced: true });
-  let autoprefix = new lessPluginAutoprefix();
-
-  lessOpts.plugins = [autoprefix, cleanCSS];
-}
+let autoprefix = new LessPluginAutoprefix();
+lessOpts.plugins = [autoprefix];
 
 function isProd() {
   return process.env.NODE_ENV === 'production';
@@ -148,6 +143,7 @@ gulp.task('less', function () {
     .pipe(plumber({errorHandler: streamError}))
     .pipe(gulpIf(!isProd(), sourcemaps.init()))
     .pipe(less(lessOpts))
+    .pipe(minifyCSS())
     .pipe(gulpIf(!isProd(), sourcemaps.write('.')))
     .pipe(gulp.dest(DEST))
     .pipe(livereload());
