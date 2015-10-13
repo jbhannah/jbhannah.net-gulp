@@ -152,7 +152,9 @@ gulp.task('js', function () {
   return b.bundle()
     .pipe(source('app.js'))
     .pipe(buffer())
+    .pipe(gulpIf(!isProd(), sourcemaps.init({loadMaps: true})))
     .pipe(uglify())
+    .pipe(gulpIf(!isProd(), sourcemaps.write('.')))
     .pipe(gulp.dest(DEST + '/assets/js'));
 });
 
