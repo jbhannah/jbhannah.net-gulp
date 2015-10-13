@@ -1,4 +1,6 @@
 import assign from 'lodash/object/assign';
+import browserify from 'browserify';
+import buffer from 'vinyl-buffer';
 import connect from 'connect';
 import connectLivereload from 'connect-livereload';
 import del from 'del';
@@ -17,6 +19,7 @@ import nunjucks from 'nunjucks';
 import path from 'path';
 import plumber from 'gulp-plumber';
 import serveStatic from 'serve-static';
+import source from 'vinyl-source-stream';
 import sourcemaps from 'gulp-sourcemaps';
 import through from 'through2';
 import yargs from 'yargs';
@@ -138,6 +141,18 @@ function renderTemplate() {
   );
 }
 
+gulp.task('js', function () {
+  let b = browserify({
+    entries: 'assets/js/app.js',
+    debug: !isProd()
+  });
+
+  return b.bundle()
+    .pipe(source('app.js'))
+    .pipe(buffer())
+    .pipe(gulp.dest(DEST + '/assets/js'));
+});
+
 gulp.task('less', function () {
   return gulp.src(['./assets/css/main.less'], {base: '.'})
     .pipe(plumber({errorHandler: streamError}))
@@ -194,6 +209,7 @@ gulp.task('serve', ['nunjucks:watch', 'default'], function () {
       console.log('Listening at http://localhost:' + port);
     });
 
-  gulp.watch(['./articles/*', './pages/*', './templates/*'], ['pages']);
+  gulp.watch(['./assets/js/**/*.js'], ['js']);
   gulp.watch(['./assets/css/**/*.less'], ['less']);
+  gulp.watch(['./articles/*', './pages/*', './templates/*'], ['pages']);
 });
