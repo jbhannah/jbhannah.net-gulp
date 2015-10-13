@@ -33,7 +33,7 @@ const LR_PORT = 35729;
 let siteData = {
   title: 'Jesse B. Hannah',
   subtitle: 'jbhannah',
-  baseUrl: 'https://jbhannah.net',
+  baseUrl: isProd() ? 'https://jbhannah.net' : 'http://localhost:' + PORT,
   timezone: 'America/Phoenix',
   buildTime: new Date()
 };
