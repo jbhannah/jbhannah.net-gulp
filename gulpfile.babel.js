@@ -165,10 +165,10 @@ gulp.task('static', function () {
 });
 
 gulp.task('clean', function (done) {
-  del(DEST, done);
+  return del(DEST + '**/*', done);
 });
 
-gulp.task('default', ['less', 'pages', 'static']);
+gulp.task('default', ['clean', 'js', 'less', 'pages', 'static']);
 
 gulp.task('nunjucks:watch', function () {
   env = nunjucks.configure('templates', {
