@@ -155,7 +155,8 @@ gulp.task('js', function () {
     .pipe(gulpIf(!isProd(), sourcemaps.init({loadMaps: true})))
     .pipe(uglify())
     .pipe(gulpIf(!isProd(), sourcemaps.write('.')))
-    .pipe(gulp.dest(DEST + '/assets/js'));
+    .pipe(gulp.dest(DEST + '/assets/js'))
+    .pipe(livereload());
 });
 
 gulp.task('less', function () {
