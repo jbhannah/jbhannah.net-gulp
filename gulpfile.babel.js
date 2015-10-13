@@ -1,4 +1,5 @@
 import assign from 'lodash/object/assign';
+import babelify from 'babelify';
 import browserify from 'browserify';
 import buffer from 'vinyl-buffer';
 import connect from 'connect';
@@ -145,7 +146,7 @@ gulp.task('js', function () {
   let b = browserify({
     entries: 'assets/js/app.js',
     debug: !isProd()
-  });
+  }).transform(babelify);
 
   return b.bundle()
     .pipe(source('app.js'))
