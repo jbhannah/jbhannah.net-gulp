@@ -218,4 +218,5 @@ gulp.task('serve', ['nunjucks:watch', 'default'], function () {
   gulp.watch(['./assets/js/**/*.js'], ['js']);
   gulp.watch(['./assets/css/**/*.less'], ['less']);
   gulp.watch(['./articles/*', './pages/*', './templates/*'], ['pages']);
+  gulp.watch(['./static/**/*'], ['static']);
 });
