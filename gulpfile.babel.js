@@ -23,6 +23,7 @@ import serveStatic from 'serve-static';
 import source from 'vinyl-source-stream';
 import sourcemaps from 'gulp-sourcemaps';
 import through from 'through2';
+import uglify from 'gulp-uglify';
 import yargs from 'yargs';
 
 const DEST = 'build';
@@ -151,6 +152,7 @@ gulp.task('js', function () {
   return b.bundle()
     .pipe(source('app.js'))
     .pipe(buffer())
+    .pipe(uglify())
     .pipe(gulp.dest(DEST + '/assets/js'));
 });
 
