@@ -58,7 +58,8 @@ function streamError(err) {
 function getPermalink(filepath) {
   let extname = path.extname(filepath);
   let dirname = path.dirname(filepath);
-  let basename = path.basename(filepath, extname);
+  let basename = path.basename(filepath, extname)
+    .replace(/\d{4}-\d{2}-\d{2}-/, '');
 
   if (basename !== 'index') {
     dirname += '/' + basename;
@@ -83,7 +84,7 @@ function getDestPathFromPermalink(permalink) {
 
 function renderContent() {
   let files = [];
-  let site = assign(siteData);
+  let site = assign(siteData, {articles: []});
 
   let md = new MarkdownIt({
     html: true,
@@ -105,6 +106,13 @@ function renderContent() {
 
       if (path.extname(file.path) === '.md') {
         file.data.page.contents = contents = md.render(contents);
+      }
+
+      if (path.relative('.', file.path).startsWith('articles')) {
+        file.data.page.date = path.basename(file.path, path.extname(file.path))
+          .match(/\d{4}-\d{2}-\d{2}/)[0];
+
+        site.articles.unshift(file.data.page);
       }
 
       file.contents = new Buffer(contents);
