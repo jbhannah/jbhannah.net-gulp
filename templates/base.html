@@ -16,6 +16,10 @@
           {{ page.content }}
         {% endblock %}
       </main>
+      <footer class="site-footer">
+        Copyright © {{ site.buildTime | format('YYYY') }} <a href="/" title="{{ site.title }}">{{ site.title }}</a>.
+        <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/us/">Some Rights Reserved</a>.
+      </footer>
     </div>
     <script src="/assets/js/app.js"></script>
   </body>
