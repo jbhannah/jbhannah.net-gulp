@@ -15,6 +15,7 @@ import livereload from 'gulp-livereload';
 import MarkdownIt from 'markdown-it';
 import minifyCSS from 'gulp-minify-css';
 import minifyHTML from 'gulp-minify-html';
+import moment from 'moment';
 import morgan from 'morgan';
 import nunjucks from 'nunjucks';
 import path from 'path';
@@ -198,12 +199,18 @@ gulp.task('clean', function (done) {
   return del(DEST + '**/*', done);
 });
 
-gulp.task('default', ['clean', 'js', 'less', 'pages', 'static']);
+gulp.task('default', ['clean', 'nunjucks:filters', 'js', 'less', 'pages', 'static']);
 
 gulp.task('nunjucks:watch', function () {
   env = nunjucks.configure('templates', {
     autoescape: false,
     watch: true // required to see template changes with gulp serve
+  });
+});
+
+gulp.task('nunjucks:filters', function () {
+  env.addFilter('format', function (str, formatString) {
+    return moment(str).format(formatString);
   });
 });
 

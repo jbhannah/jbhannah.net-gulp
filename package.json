@@ -47,6 +47,7 @@
     "less-plugin-autoprefix": "1.5.1",
     "lodash": "3.10.1",
     "markdown-it": "5.0.0",
+    "moment": "2.10.6",
     "morgan": "1.6.1",
     "normalize.css": "3.0.3",
     "nunjucks": "2.1.0",
