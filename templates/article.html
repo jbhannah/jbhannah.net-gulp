@@ -7,10 +7,16 @@
     <h1 class="__title">{{ page.title }}</h1>
     <time class="__date" datetime="{{ page.date | format() }}">{{ page.date | format('D MMMM YYYY') }}</time>
   </header>
-
   <div class="content-body">
     {{ super() }}
   </div>
+  <footer class="content-footer">
+    <p class="share-links">
+      <a class="__link -twitter" data-social-network="Twitter" data-social-action="tweet"
+        href="https://twitter.com/intent/tweet?text={{ page.title }}&amp;url={{ site.baseUrl + page.permalink }}&amp;via={{ site.subtitle }}"
+        target="_blank">Share on Twitter</a>
+    </p>
+  </footer>
 </article>
 
 {% endblock %}
