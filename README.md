@@ -1,6 +1,6 @@
 # jbhannah.net
 
-[![Build Status](https://img.shields.io/travis/USER/REPO.svg)](https://travis-ci.org/jbhannah/jbhannah.net)
+[![Build Status](https://img.shields.io/travis/jbhannah/jbhannah.net.svg)](https://travis-ci.org/jbhannah/jbhannah.net)
 [![devDependency Status](https://david-dm.org/jbhannah/jbhannah.net/dev-status.svg)](https://david-dm.org/jbhannah/jbhannah.net#info=devDependencies)
 
 Homepage and weblog of Jesse B. Hannah.
