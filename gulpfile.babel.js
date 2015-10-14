@@ -111,6 +111,7 @@ function renderContent() {
       if (path.relative('.', file.path).startsWith('articles')) {
         file.data.page.date = path.basename(file.path, path.extname(file.path))
           .match(/\d{4}-\d{2}-\d{2}/)[0];
+        file.data.page.template = 'article.html';
 
         site.articles.unshift(file.data.page);
       }
