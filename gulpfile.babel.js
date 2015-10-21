@@ -13,6 +13,7 @@ import less from 'gulp-less';
 import LessPluginAutoprefix from 'less-plugin-autoprefix';
 import livereload from 'gulp-livereload';
 import MarkdownIt from 'markdown-it';
+import MarkdownItFootnote from 'markdown-it-footnote';
 import minifyCSS from 'gulp-minify-css';
 import minifyHTML from 'gulp-minify-html';
 import moment from 'moment';
@@ -90,7 +91,7 @@ function renderContent() {
   let md = new MarkdownIt({
     html: true,
     typographer: true
-  });
+  }).use(MarkdownItFootnote);
 
   return through.obj(
     function transform(file, enc, done) {
