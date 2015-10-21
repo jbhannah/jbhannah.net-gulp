@@ -1,6 +1,4 @@
 import assign from 'lodash/object/assign';
-import babelify from 'babelify';
-import browserify from 'browserify';
 import buffer from 'vinyl-buffer';
 import connect from 'connect';
 import connectLivereload from 'connect-livereload';
@@ -154,22 +152,6 @@ function renderTemplate() {
   );
 }
 
-gulp.task('js', function () {
-  let b = browserify({
-    entries: 'assets/js/app.js',
-    debug: !isProd()
-  }).transform(babelify);
-
-  return b.bundle()
-    .pipe(source('app.js'))
-    .pipe(buffer())
-    .pipe(gulpIf(!isProd(), sourcemaps.init({loadMaps: true})))
-    .pipe(uglify())
-    .pipe(gulpIf(!isProd(), sourcemaps.write('.')))
-    .pipe(gulp.dest(DEST + '/assets/js'))
-    .pipe(livereload());
-});
-
 gulp.task('less', function () {
   return gulp.src(['./assets/css/main.less'], {base: '.'})
     .pipe(plumber({errorHandler: streamError}))
@@ -200,7 +182,7 @@ gulp.task('clean', function (done) {
   return del(DEST + '**/*', done);
 });
 
-gulp.task('default', ['clean', 'nunjucks:filters', 'js', 'less', 'pages', 'static']);
+gulp.task('default', ['clean', 'nunjucks:filters', 'less', 'pages', 'static']);
 
 gulp.task('nunjucks:watch', function () {
   env = nunjucks.configure('templates', {
@@ -232,7 +214,6 @@ gulp.task('serve', ['nunjucks:watch', 'default'], function () {
       console.log('Listening at http://localhost:' + port);
     });
 
-  gulp.watch(['./assets/js/**/*.js'], ['js']);
   gulp.watch(['./assets/css/**/*.less'], ['less']);
   gulp.watch(['./articles/*', './pages/*', './templates/*'], ['pages']);
   gulp.watch(['./static/**/*'], ['static']);
