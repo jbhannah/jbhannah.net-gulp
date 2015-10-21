@@ -32,6 +32,10 @@ const DEST = 'build';
 const PORT = 4000;
 const LR_PORT = 35729;
 
+function isProd() {
+  return process.env.NODE_ENV === 'production';
+}
+
 let siteData = {
   title: 'Jesse B. Hannah',
   subtitle: 'jbhannah',
@@ -47,10 +51,6 @@ let env = nunjucks.configure('templates', {
 let lessOpts = {};
 let autoprefix = new LessPluginAutoprefix();
 lessOpts.plugins = [autoprefix];
-
-function isProd() {
-  return process.env.NODE_ENV === 'production';
-}
 
 function streamError(err) {
   gutil.beep();
