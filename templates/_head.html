@@ -1,5 +1,5 @@
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1">
 
 <title>
   {% if page.title %}
@@ -8,5 +8,10 @@
   {{ site.title }}
 </title>
 
+<link rel="canonical" href="{{ site.baseUrl }}{{ page.permalink }}">
+<style>body {opacity: 0}</style><noscript><style>body {opacity: 1}</style></noscript>
+
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Julius+Sans+One%7CCrimson+Text:400,700,400italic,700italic%7CUbuntu+Mono&amp;subset=latin,latin,latin" media="all">
 <link rel="stylesheet" href="/assets/css/main.css">
+
+<script async src="https://cdn.ampproject.org/v0.js"></script>
