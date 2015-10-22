@@ -7,6 +7,7 @@ import frontMatter from 'front-matter';
 import gulp from 'gulp';
 import gulpIf from 'gulp-if';
 import gutil from 'gulp-util';
+import inlineSource from 'gulp-inline-source';
 import less from 'gulp-less';
 import LessPluginAutoprefix from 'less-plugin-autoprefix';
 import livereload from 'gulp-livereload';
@@ -161,11 +162,14 @@ gulp.task('less', function () {
     .pipe(livereload());
 });
 
-gulp.task('pages', function () {
+gulp.task('pages', ['less'], function () {
   return gulp.src(['./articles/*', './pages/*'], {base: '.'})
     .pipe(plumber({errorHandler: streamError}))
     .pipe(renderContent())
     .pipe(renderTemplate())
+    .pipe(gulpIf(production, inlineSource({
+      rootpath: DEST
+    })))
     .pipe(minifyHTML())
     .pipe(gulp.dest(DEST))
     .pipe(livereload());
@@ -213,6 +217,9 @@ gulp.task('serve', ['nunjucks:watch', 'default'], function () {
     });
 
   gulp.watch(['./assets/css/**/*.less'], ['less']);
+  if (production) {
+    gulp.watch(['./assets/css/**/*.less'], ['pages']);
+  }
   gulp.watch(['./articles/*', './pages/*', './templates/*'], ['pages']);
   gulp.watch(['./static/**/*'], ['static']);
 });
