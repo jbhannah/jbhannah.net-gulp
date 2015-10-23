@@ -32,21 +32,18 @@ const DEST = 'build';
 const PORT = 4000;
 const LR_PORT = 35729;
 
-function isProd() {
-  return process.env.NODE_ENV === 'production';
-}
+let production = (process.env.NODE_ENV === 'production');
 
 let siteData = {
   title: 'Jesse B. Hannah',
   subtitle: 'jbhannah',
-  baseUrl: isProd() ? 'https://jbhannah.net' : 'http://localhost:' + PORT,
+  baseUrl: production ? 'https://jbhannah.net' : 'http://localhost:' + PORT,
   timezone: 'America/Phoenix',
   buildTime: new Date()
 };
 
-let env = nunjucks.configure('templates', {
-  autoescape: false
-});
+// Contains the Nunjucks environment
+let env = null;
 
 let lessOpts = {};
 let autoprefix = new LessPluginAutoprefix();
@@ -157,15 +154,15 @@ function renderTemplate() {
 gulp.task('js', function () {
   let b = browserify({
     entries: 'assets/js/app.js',
-    debug: !isProd()
+    debug: !production
   }).transform(babelify);
 
   return b.bundle()
     .pipe(source('app.js'))
     .pipe(buffer())
-    .pipe(gulpIf(!isProd(), sourcemaps.init({loadMaps: true})))
+    .pipe(gulpIf(!production, sourcemaps.init({loadMaps: true})))
     .pipe(uglify())
-    .pipe(gulpIf(!isProd(), sourcemaps.write('.')))
+    .pipe(gulpIf(!production, sourcemaps.write('.')))
     .pipe(gulp.dest(DEST + '/assets/js'))
     .pipe(livereload());
 });
@@ -173,15 +170,15 @@ gulp.task('js', function () {
 gulp.task('less', function () {
   return gulp.src(['./assets/css/main.less'], {base: '.'})
     .pipe(plumber({errorHandler: streamError}))
-    .pipe(gulpIf(!isProd(), sourcemaps.init()))
+    .pipe(gulpIf(!production, sourcemaps.init()))
     .pipe(less(lessOpts))
     .pipe(minifyCSS())
-    .pipe(gulpIf(!isProd(), sourcemaps.write('.')))
+    .pipe(gulpIf(!production, sourcemaps.write('.')))
     .pipe(gulp.dest(DEST))
     .pipe(livereload());
 });
 
-gulp.task('pages', function () {
+gulp.task('pages', ['nunjucks:configure'], function () {
   return gulp.src(['./articles/*', './pages/*'], {base: '.'})
     .pipe(plumber({errorHandler: streamError}))
     .pipe(renderContent())
@@ -200,22 +197,22 @@ gulp.task('clean', function (done) {
   return del(DEST + '**/*', done);
 });
 
-gulp.task('default', ['clean', 'nunjucks:filters', 'js', 'less', 'pages', 'static']);
+gulp.task('default', ['clean', 'js', 'less', 'pages', 'static']);
 
-gulp.task('nunjucks:watch', function () {
+gulp.task('nunjucks:configure', function () {
   env = nunjucks.configure('templates', {
     autoescape: false,
-    watch: true // required to see template changes with gulp serve
+    watch: !production // required to see template changes with gulp serve
   });
-});
 
-gulp.task('nunjucks:filters', function () {
   env.addFilter('format', function (str, formatString) {
     return moment(str).format(formatString);
   });
+
+  return;
 });
 
-gulp.task('serve', ['nunjucks:watch', 'default'], function () {
+gulp.task('serve', ['default'], function () {
   let port = yargs.argv.port || yargs.argv.p || PORT;
 
   livereload.listen({
