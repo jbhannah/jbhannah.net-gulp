@@ -30,14 +30,12 @@ const DEST = 'build';
 const PORT = 4000;
 const LR_PORT = 35729;
 
-function isProd() {
-  return process.env.NODE_ENV === 'production';
-}
+let production = (process.env.NODE_ENV === 'production');
 
 let siteData = {
   title: 'Jesse B. Hannah',
   subtitle: 'jbhannah',
-  baseUrl: isProd() ? 'https://jbhannah.net' : 'http://localhost:' + PORT,
+  baseUrl: production ? 'https://jbhannah.net' : 'http://localhost:' + PORT,
   timezone: 'America/Phoenix',
   buildTime: new Date()
 };
@@ -155,10 +153,10 @@ function renderTemplate() {
 gulp.task('less', function () {
   return gulp.src(['./assets/css/main.less'], {base: '.'})
     .pipe(plumber({errorHandler: streamError}))
-    .pipe(gulpIf(!isProd(), sourcemaps.init()))
+    .pipe(gulpIf(!production, sourcemaps.init()))
     .pipe(less(lessOpts))
     .pipe(minifyCSS())
-    .pipe(gulpIf(!isProd(), sourcemaps.write('.')))
+    .pipe(gulpIf(!production, sourcemaps.write('.')))
     .pipe(gulp.dest(DEST))
     .pipe(livereload());
 });
