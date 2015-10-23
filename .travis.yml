@@ -3,7 +3,10 @@ language: node_js
 node_js:
   - "4"
 
+env:
+  - NODE_ENV=production
+
 before_script:
-  - npm install -g gulp
+  - npm install -g gulp-cli
 
 script: gulp
