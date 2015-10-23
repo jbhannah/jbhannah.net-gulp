@@ -10,3 +10,16 @@ before_script:
   - npm install -g gulp-cli
 
 script: gulp
+
+deploy:
+  provider: s3
+  access_key_id: AKIAI5FN7IT2CYQDYKQQ
+  secret_access_key:
+    secure: SZDzKFKx2tMh3kt6tCPO7hlIdQYpragVILXUld1YJ/jeoSxleu64ADYYBzD9mFVDT70kXlYb8Vkzfmo479ND6X3aUtL1B+V4U0G6aemcacCkNdto8vE3VX57Z3PXqnWbMXXEIQEAjtgBbTy99C6h91wHVUkiUJE8OnxSiKau/CbkcfoKDw3fuKV2Bd84uvTtCvt0hi6fw8+zggcp9cWdsYah83nkz7CLbYSNNDv2uuHYTHtOtEAMvvnjORXVxBlXDCihCNmvt5zSY/MlzyNT3iIV6BdSzSBDT/q/UfMhUjsd9uaUEWdV7j6dHNP1L1oJfmkcR/aB4xVyAEFMXyxeCxsLQ/AYGO56ymffMEijZj+1kkLKFijSWZmm0+gfzIYzoR9dOcpjrMd7zsLYtNaityYe3ADhpsoR8Qn9cwzeK8jMDn+6sb/FB2M/vQ9GeBWs5IKi93stiBeaWsFrZy2PSbp/n2imMv+IqWZhpMusBY86wIlro/HK9m6FWz00IsHR0tLyNox64UEvJszqU1RmSGIDj8DrgwlN+dzxUcY7jW6CageZV7TMJ34UapF6+eX+knPFLswfUF4NCWx+Q5vb1YTSGn2OPA+jurFM786y1W7x3EeJ2zHKNbpV65+mve9ohdPfqDBssRd2E/G5lbszMIcWKamPq15MdAn4gCJpq6Q=
+  bucket: jbhannah.net
+  skip_cleanup: true
+  local_dir: build
+  acl: public_read
+  on:
+    repo: jbhannah/jbhannah.net
+    branch: master
