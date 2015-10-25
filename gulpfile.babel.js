@@ -1,6 +1,5 @@
+import amperize from 'gulp-amperize';
 import assign from 'lodash/object/assign';
-import babelify from 'babelify';
-import browserify from 'browserify';
 import buffer from 'vinyl-buffer';
 import connect from 'connect';
 import connectLivereload from 'connect-livereload';
@@ -9,6 +8,7 @@ import frontMatter from 'front-matter';
 import gulp from 'gulp';
 import gulpIf from 'gulp-if';
 import gutil from 'gulp-util';
+import inlineSource from 'gulp-inline-source';
 import less from 'gulp-less';
 import LessPluginAutoprefix from 'less-plugin-autoprefix';
 import livereload from 'gulp-livereload';
@@ -32,14 +32,12 @@ const DEST = 'build';
 const PORT = 4000;
 const LR_PORT = 35729;
 
-function isProd() {
-  return process.env.NODE_ENV === 'production';
-}
+let production = (process.env.NODE_ENV === 'production');
 
 let siteData = {
   title: 'Jesse B. Hannah',
   subtitle: 'jbhannah',
-  baseUrl: isProd() ? 'https://jbhannah.net' : 'http://localhost:' + PORT,
+  baseUrl: production ? 'https://jbhannah.net' : 'http://localhost:' + PORT,
   timezone: 'America/Phoenix',
   buildTime: new Date()
 };
@@ -154,38 +152,26 @@ function renderTemplate() {
   );
 }
 
-gulp.task('js', function () {
-  let b = browserify({
-    entries: 'assets/js/app.js',
-    debug: !isProd()
-  }).transform(babelify);
-
-  return b.bundle()
-    .pipe(source('app.js'))
-    .pipe(buffer())
-    .pipe(gulpIf(!isProd(), sourcemaps.init({loadMaps: true})))
-    .pipe(uglify())
-    .pipe(gulpIf(!isProd(), sourcemaps.write('.')))
-    .pipe(gulp.dest(DEST + '/assets/js'))
-    .pipe(livereload());
-});
-
 gulp.task('less', function () {
   return gulp.src(['./assets/css/main.less'], {base: '.'})
     .pipe(plumber({errorHandler: streamError}))
-    .pipe(gulpIf(!isProd(), sourcemaps.init()))
+    .pipe(gulpIf(!production, sourcemaps.init()))
     .pipe(less(lessOpts))
     .pipe(minifyCSS())
-    .pipe(gulpIf(!isProd(), sourcemaps.write('.')))
+    .pipe(gulpIf(!production, sourcemaps.write('.')))
     .pipe(gulp.dest(DEST))
     .pipe(livereload());
 });
 
-gulp.task('pages', function () {
+gulp.task('pages', ['less'], function () {
   return gulp.src(['./articles/*', './pages/*'], {base: '.'})
     .pipe(plumber({errorHandler: streamError}))
     .pipe(renderContent())
     .pipe(renderTemplate())
+    .pipe(gulpIf(production, inlineSource({
+      rootpath: DEST
+    })))
+    .pipe(amperize())
     .pipe(minifyHTML())
     .pipe(gulp.dest(DEST))
     .pipe(livereload());
@@ -200,7 +186,7 @@ gulp.task('clean', function (done) {
   return del(DEST + '**/*', done);
 });
 
-gulp.task('default', ['clean', 'nunjucks:filters', 'js', 'less', 'pages', 'static']);
+gulp.task('default', ['clean', 'nunjucks:filters', 'less', 'pages', 'static']);
 
 gulp.task('nunjucks:watch', function () {
   env = nunjucks.configure('templates', {
@@ -232,8 +218,10 @@ gulp.task('serve', ['nunjucks:watch', 'default'], function () {
       console.log('Listening at http://localhost:' + port);
     });
 
-  gulp.watch(['./assets/js/**/*.js'], ['js']);
   gulp.watch(['./assets/css/**/*.less'], ['less']);
+  if (production) {
+    gulp.watch(['./assets/css/**/*.less'], ['pages']);
+  }
   gulp.watch(['./articles/*', './pages/*', './templates/*'], ['pages']);
   gulp.watch(['./static/**/*'], ['static']);
 });
