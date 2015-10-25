@@ -33,6 +33,7 @@
     "del": "2.0.2",
     "front-matter": "2.0.0",
     "gulp": "3.9.0",
+    "gulp-amperize": "1.1.0",
     "gulp-if": "2.0.0",
     "gulp-inline-source": "2.1.0",
     "gulp-less": "3.0.3",

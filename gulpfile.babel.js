@@ -1,3 +1,4 @@
+import amperize from 'gulp-amperize';
 import assign from 'lodash/object/assign';
 import buffer from 'vinyl-buffer';
 import connect from 'connect';
@@ -170,6 +171,7 @@ gulp.task('pages', ['less'], function () {
     .pipe(gulpIf(production, inlineSource({
       rootpath: DEST
     })))
+    .pipe(amperize())
     .pipe(minifyHTML())
     .pipe(gulp.dest(DEST))
     .pipe(livereload());
