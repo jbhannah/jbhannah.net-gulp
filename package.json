@@ -27,7 +27,7 @@
     "clean": "gulp clean"
   },
   "dependencies": {
-    "babel-core": "5.8.33",
+    "babel-core": "6.0.2",
     "connect": "3.4.0",
     "connect-livereload": "0.5.3",
     "del": "2.0.2",
