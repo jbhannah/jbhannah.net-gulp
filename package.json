@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "babel-core": "6.0.2",
+    "babel-preset-es2015": "6.0.8",
     "connect": "3.4.0",
     "connect-livereload": "0.5.3",
     "del": "2.0.2",
