@@ -61,7 +61,7 @@
     "yargs": "3.29.0"
   },
   "engines": {
-    "node": "4.x"
+    "node": "5.x"
   },
   "private": true
 }
