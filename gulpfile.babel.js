@@ -23,6 +23,7 @@ import morgan from 'morgan';
 import nunjucks from 'nunjucks';
 import path from 'path';
 import plumber from 'gulp-plumber';
+import runSequence from 'run-sequence';
 import serveStatic from 'serve-static';
 import source from 'vinyl-source-stream';
 import sourcemaps from 'gulp-sourcemaps';
@@ -154,6 +155,10 @@ function renderTemplate() {
   );
 }
 
+gulp.task('clean', function () {
+  return del(DEST);
+});
+
 gulp.task('less', function () {
   return gulp.src(['./assets/css/main.less'], {base: '.'})
     .pipe(plumber({errorHandler: streamError}))
@@ -165,7 +170,13 @@ gulp.task('less', function () {
     .pipe(livereload());
 });
 
-gulp.task('pages', ['less'], function () {
+gulp.task('nunjucks:filters', function () {
+  env.addFilter('format', function (str, formatString) {
+    return moment(str).format(formatString);
+  });
+});
+
+gulp.task('pages', function () {
   return gulp.src(['./articles/*', './pages/*'], {base: '.'})
     .pipe(plumber({errorHandler: streamError}))
     .pipe(renderContent())
@@ -184,22 +195,14 @@ gulp.task('static', function () {
     .pipe(gulp.dest(DEST));
 });
 
-gulp.task('clean', function (done) {
-  return del(DEST + '**/*', done);
+gulp.task('default', function (done) {
+  runSequence('clean', ['nunjucks:filters', 'less', 'static'], 'pages', done);
 });
-
-gulp.task('default', ['clean', 'nunjucks:filters', 'less', 'pages', 'static']);
 
 gulp.task('nunjucks:watch', function () {
   env = nunjucks.configure('templates', {
     autoescape: false,
     watch: true // required to see template changes with gulp serve
-  });
-});
-
-gulp.task('nunjucks:filters', function () {
-  env.addFilter('format', function (str, formatString) {
-    return moment(str).format(formatString);
   });
 });
 
