@@ -1,3 +1,5 @@
+'use strict';
+
 import amperize from 'gulp-amperize';
 import assign from 'lodash/object/assign';
 import buffer from 'vinyl-buffer';
