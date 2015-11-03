@@ -27,7 +27,7 @@
     "clean": "gulp clean"
   },
   "dependencies": {
-    "babel-core": "6.0.16",
+    "babel-core": "6.0.19",
     "babel-plugin-transform-es2015-modules-commonjs": "6.0.15",
     "babel-preset-es2015": "6.0.15",
     "connect": "3.4.0",
