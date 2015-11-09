@@ -16,6 +16,13 @@ Homepage and weblog of Jesse B. Hannah.
     $ npm install
     $ gulp serve
 
+## Deployment
+
+    $ NODE_ENV=production gulp
+    
+then upload the contents of `build` (currently continuously deploying from
+Travis CI to S3 on successful builds of `master`).
+
 ## Credits
 
 Copyright © 2015 Jesse B. Hannah, licensed under the MIT License (see
