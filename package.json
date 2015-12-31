@@ -33,7 +33,7 @@
     "connect": "3.4.0",
     "connect-livereload": "0.5.4",
     "del": "2.2.0",
-    "front-matter": "2.0.1",
+    "front-matter": "2.0.2",
     "gulp": "3.9.0",
     "gulp-amperize": "1.1.0",
     "gulp-if": "2.0.0",
