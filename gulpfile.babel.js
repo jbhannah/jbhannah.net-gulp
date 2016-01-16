@@ -5,6 +5,7 @@ import assign from 'lodash/object/assign';
 import buffer from 'vinyl-buffer';
 import connect from 'connect';
 import connectLivereload from 'connect-livereload';
+import cssnano from 'gulp-cssnano';
 import del from 'del';
 import frontMatter from 'front-matter';
 import gulp from 'gulp';
@@ -16,7 +17,6 @@ import LessPluginAutoprefix from 'less-plugin-autoprefix';
 import livereload from 'gulp-livereload';
 import MarkdownIt from 'markdown-it';
 import MarkdownItFootnote from 'markdown-it-footnote';
-import minifyCSS from 'gulp-minify-css';
 import minifyHTML from 'gulp-minify-html';
 import moment from 'moment';
 import morgan from 'morgan';
@@ -164,7 +164,7 @@ gulp.task('less', function () {
     .pipe(plumber({errorHandler: streamError}))
     .pipe(gulpIf(!production, sourcemaps.init()))
     .pipe(less(lessOpts))
-    .pipe(minifyCSS())
+    .pipe(cssnano())
     .pipe(gulpIf(!production, sourcemaps.write('.')))
     .pipe(gulp.dest(DEST))
     .pipe(livereload());
