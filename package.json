@@ -47,7 +47,7 @@
     "gulp-uglify": "1.5.1",
     "gulp-util": "3.0.7",
     "less-plugin-autoprefix": "1.5.1",
-    "lodash-es": "4.1.0",
+    "lodash-es": "4.2.0",
     "markdown-it": "5.1.0",
     "markdown-it-footnote": "2.0.0",
     "moment": "2.11.1",
