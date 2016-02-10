@@ -36,7 +36,7 @@
     "front-matter": "2.0.5",
     "gulp": "3.9.1",
     "gulp-amperize": "1.1.0",
-    "gulp-cssnano": "2.1.0",
+    "gulp-cssnano": "2.1.1",
     "gulp-if": "2.0.0",
     "gulp-inline-source": "2.1.0",
     "gulp-less": "3.0.5",
