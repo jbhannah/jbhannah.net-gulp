@@ -51,7 +51,7 @@
     "markdown-it": "6.0.0",
     "markdown-it-footnote": "2.0.0",
     "moment": "2.11.2",
-    "morgan": "1.6.1",
+    "morgan": "1.7.0",
     "normalize.css": "3.0.3",
     "nunjucks": "2.3.0",
     "run-sequence": "1.1.5",
