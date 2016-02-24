@@ -59,7 +59,7 @@
     "through2": "2.0.1",
     "vinyl-buffer": "1.0.0",
     "vinyl-source-stream": "1.1.0",
-    "yargs": "4.1.0"
+    "yargs": "4.2.0"
   },
   "engines": {
     "node": "5.x"
