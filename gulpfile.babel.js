@@ -11,6 +11,8 @@ import frontMatter from 'front-matter';
 import gulp from 'gulp';
 import gulpIf from 'gulp-if';
 import gutil from 'gulp-util';
+import he from 'he';
+import hljs from 'highlight.js';
 import inlineSource from 'gulp-inline-source';
 import less from 'gulp-less';
 import LessPluginAutoprefix from 'less-plugin-autoprefix';
@@ -91,7 +93,10 @@ function renderContent() {
 
   let md = new MarkdownIt({
     html: true,
-    typographer: true
+    typographer: true,
+    highlight: function (code, lang) {
+      return lang ? hljs.highlight(lang, code).value : he.escape(he.unescape(code));
+    }
   }).use(MarkdownItFootnote);
 
   return through.obj(
