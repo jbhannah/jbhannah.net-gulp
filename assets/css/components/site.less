@@ -15,12 +15,17 @@
 }
 
 .site-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   width: 100%;
   max-width: @content-width;
   margin: 0 auto;
   padding: 0 1rem;
 
   @media @break-lg {
+    flex-direction: column;
+    justify-content: flex-start;
     width: @header-width;
     margin: 0;
     padding-right: 0;
@@ -42,6 +47,12 @@
     @media @break-sm {
       font-size: 1.167rem;
     }
+  }
+}
+
+.site-nav {
+  ul {
+    list-style-type: none;
   }
 }
 
