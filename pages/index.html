@@ -1,0 +1,25 @@
+---
+template: base.html
+---
+
+<header class="page-header">
+  <h1 class="__title">Recent Articles</h1>
+</header>
+
+<ul class="article-list">
+  {% for article in site.articles %}
+    <li class="__article">
+      <a href="{{ article.permalink }}" title="{{ article.title }}">
+        <article role="article" class="article">
+            <header class="content-header">
+              <h2 class="__title">{{ article.title }}</h2>
+              <time class="__date" datetime="{{ article.date | format() }}" pubdate>{{ page.date | format('D MMMM YYYY') }}</date>
+            </header>
+            <div class="content-body">
+              <p>{{ article.content | striptags | truncate(200, false, '…') }}</p>
+            </div>
+        </article>
+      </a>
+    </li>
+  {% endfor %}
+</ul>

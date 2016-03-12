@@ -1,0 +1,18 @@
+.article-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+
+  .__article {
+    border-bottom: 1px solid lighten(@color, 80%);
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    a {
+      color: @color;
+      text-decoration: none;
+    }
+  }
+}
