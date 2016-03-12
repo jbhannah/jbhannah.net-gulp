@@ -12,13 +12,13 @@ import gulpIf from 'gulp-if';
 import gutil from 'gulp-util';
 import he from 'he';
 import hljs from 'highlight.js';
+import htmlmin from 'gulp-htmlmin';
 import inlineSource from 'gulp-inline-source';
 import less from 'gulp-less';
 import LessPluginAutoprefix from 'less-plugin-autoprefix';
 import livereload from 'gulp-livereload';
 import MarkdownIt from 'markdown-it';
 import MarkdownItFootnote from 'markdown-it-footnote';
-import minifyHTML from 'gulp-minify-html';
 import moment from 'moment';
 import morgan from 'morgan';
 import nunjucks from 'nunjucks';
@@ -190,7 +190,9 @@ gulp.task('pages', function () {
     .pipe(gulpIf(production, inlineSource({
       rootpath: DEST
     })))
-    .pipe(minifyHTML())
+    .pipe(htmlmin({
+      collapseWhitespace: true
+    }))
     .pipe(gulp.dest(DEST))
     .pipe(livereload());
 });
