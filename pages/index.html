@@ -16,7 +16,7 @@ template: base.html
               <time class="__date" datetime="{{ article.date | format() }}" pubdate>{{ page.date | format('D MMMM YYYY') }}</date>
             </header>
             <div class="content-body">
-              <p>{{ article.content | striptags | truncate(200, false, '…') }}</p>
+              <p>{{ article.excerpt | striptags }}</p>
             </div>
         </article>
       </a>

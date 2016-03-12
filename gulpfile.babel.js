@@ -121,6 +121,8 @@ function renderContent() {
           .match(/\d{4}-\d{2}-\d{2}/)[0];
         file.data.page.template = 'article.html';
 
+        file.data.page.excerpt = contents.substr(contents.indexOf('<p>') + 3, contents.indexOf('</p>') - 3);
+
         site.articles.unshift(file.data.page);
       }
 
