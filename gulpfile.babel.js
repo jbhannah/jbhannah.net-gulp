@@ -184,7 +184,7 @@ gulp.task('nunjucks:filters', function () {
   });
 });
 
-gulp.task('pages', function () {
+gulp.task('pages', ['nunjucks:filters'], function () {
   return gulp.src(['./articles/*', './pages/*'], {base: '.'})
     .pipe(plumber({errorHandler: streamError}))
     .pipe(renderContent())
@@ -206,7 +206,7 @@ gulp.task('static', function () {
 });
 
 gulp.task('default', function (done) {
-  runSequence('clean', ['nunjucks:filters', 'less', 'static'], 'pages', done);
+  runSequence('clean', ['less', 'static', 'pages'], done);
 });
 
 gulp.task('nunjucks:watch', function () {
