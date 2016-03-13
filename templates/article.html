@@ -1,5 +1,14 @@
 {% extends 'base.html' %}
 
+{% block opengraph %}
+
+<meta property="og:url"                content="{{ site.baseUrl }}{{ page.permalink }}" />
+<meta property="og:type"               content="article" />
+<meta property="og:title"              content="{{ page.title }}" />
+<meta property="og:description"        content="{{ page.excerpt | striptags }}" />
+
+{% endblock %}
+
 {% block content %}
 
 <article role="article" class="article">
@@ -13,7 +22,7 @@
   <footer class="content-footer">
     <p class="share-links">
       <a class="__link -twitter" data-social-network="Twitter" data-social-action="tweet"
-        href="https://twitter.com/intent/tweet?text={{ page.title }}&amp;url={{ site.baseUrl + page.permalink }}&amp;via={{ site.subtitle }}"
+        href="https://twitter.com/intent/tweet?text={{ page.title }}&amp;url={{ site.baseUrl }}{{ page.permalink }}&amp;via={{ site.subtitle }}"
         target="_blank">Share on Twitter</a>
     </p>
   </footer>
