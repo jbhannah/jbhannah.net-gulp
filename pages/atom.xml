@@ -8,6 +8,9 @@ template: atom.xml
     <link href="{{ site.baseUrl }}{{ article.permalink }}" />
     <updated>{{ article.date | format() }}</updated>
     <id>{{ site.baseUrl }}{{ article.permalink }}</id>
-    <summary type="html">{{ article.excerpt | escape }}</summary>
+    <summary type="html">
+      {{ article.excerpt | escape }}
+      <p><a href="{{ site.baseUrl }}{{ article.permalink }}">Read More…</a></p>
+    </summary>
   </entry>
 {% endfor -%}
