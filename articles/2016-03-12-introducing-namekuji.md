@@ -7,7 +7,7 @@ New site design, might as well use it to announce a new tool I've written.
 [Namekuji][] is a slug generator for any Ruby ORM that builds on Rails'
 ActiveModel, including [Neo4j.rb][] and [Mongoid][], born from my ongoing
 [Pokémon website project][]'s need for a slug generator that wasn't dependent
-on ActiveRecord.
+on ActiveRecord, like [FriendlyId][].
 
 If you have a model—say, for blog posts—with `title` and `slug` columns, all it
 takes to get generation and validation of the slug is an include and a call to
@@ -47,5 +47,6 @@ and additional documentation.
 [Namekuji]: https://github.com/thetallgrassnet/namekuji
 [Neo4j.rb]: http://neo4jrb.io/
 [Mongoid]: https://mongoid.github.io/
+[FriendlyId]: https://github.com/norman/friendly_id
 [Pokémon website project]: https://github.com/thetallgrassnet/pokesite
 [`parameterize`]: http://api.rubyonrails.org/classes/ActiveSupport/Inflector.html#method-i-parameterize
