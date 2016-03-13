@@ -116,10 +116,12 @@ function renderContent() {
       }
 
       if (path.relative('.', file.path).startsWith('articles')) {
-        file.data.page.date = path.basename(file.path, path.extname(file.path))
-          .match(/\d{4}-\d{2}-\d{2}/)[0];
-        file.data.page.template = 'article.html';
+        if (!file.data.page.hasOwnProperty('date')) {
+          file.data.page.date = path.basename(file.path, path.extname(file.path))
+            .match(/\d{4}-\d{2}-\d{2}/)[0];
+        }
 
+        file.data.page.template = 'article.html';
         file.data.page.excerpt = contents.substr(contents.indexOf('<p>') + 3, contents.indexOf('</p>') - 3);
 
         site.articles.unshift(file.data.page);

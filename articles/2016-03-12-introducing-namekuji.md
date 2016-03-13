@@ -1,5 +1,6 @@
 ---
 title: Introducing Namekuji
+date: 2016-03-12T18:00:00-07:00
 ---
 
 New site design, might as well use it to announce a new tool I've written.
