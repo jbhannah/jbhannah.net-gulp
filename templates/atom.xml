@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>{{ site.title }}</title>
+  <link href="{{ site.baseUrl }}/atom.xml" rel="self" />
+  <link href="{{ site.baseUrl }}/" />
+  <updated>{{ site.buildTime | format() }}</updated>
+  <id>{{ site.baseUrl }}/</id>
+  <author>
+    <name>Jesse B. Hannah</name>
+    <email>jesse@jbhannah.net</email>
+  </author>
+  {{ page.content }}
+</feed>

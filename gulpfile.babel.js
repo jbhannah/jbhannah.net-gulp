@@ -65,7 +65,7 @@ function getPermalink(filepath) {
   let basename = path.basename(filepath, extname)
     .replace(/\d{4}-\d{2}-\d{2}-/, '');
 
-  if (basename !== 'index') {
+  if (basename !== 'index' && basename !== 'atom') {
     dirname += '/' + basename;
     basename = 'index';
     extname = '.html';
@@ -191,7 +191,8 @@ gulp.task('pages', function () {
       rootpath: DEST
     })))
     .pipe(htmlmin({
-      collapseWhitespace: true
+      collapseWhitespace: true,
+      keepClosingSlash: true,
     }))
     .pipe(gulp.dest(DEST))
     .pipe(livereload());
