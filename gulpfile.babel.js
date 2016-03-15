@@ -41,6 +41,7 @@ let production = (process.env.NODE_ENV === 'production');
 let siteData = {
   title: 'Jesse B. Hannah',
   subtitle: 'jbhannah',
+  production: production,
   baseUrl: production ? 'https://jbhannah.net' : 'http://localhost:' + PORT,
   timezone: 'America/Phoenix',
   buildTime: new Date()

@@ -34,7 +34,7 @@
         Some Rights Reserved (<a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>).
       </footer>
     </div>
-
+    {%- if site.production %}
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -45,5 +45,6 @@
       ga('send', 'pageview');
 
     </script>
+    {%- endif %}
   </body>
 </html>
