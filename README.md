@@ -14,12 +14,12 @@ Homepage and weblog of Jesse B. Hannah.
 ## Development
 
     $ npm install
-    $ gulp serve
+    $ npm start
 
 ## Deployment
 
-    $ NODE_ENV=production gulp
-    
+    $ npm run-script build --production
+
 then upload the contents of `build` (currently continuously deploying from
 Travis CI to S3 on successful builds of `master`).
 
