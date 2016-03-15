@@ -237,6 +237,6 @@ gulp.task('serve', ['nunjucks:watch', 'default'], function () {
   if (production) {
     gulp.watch(['./assets/css/**/*.less'], ['pages']);
   }
-  gulp.watch(['./articles/*', './pages/*', './templates/*'], ['pages']);
+  gulp.watch(['./articles/*.md', './pages/*', './templates/*'], ['pages']);
   gulp.watch(['./static/**/*'], ['static']);
 });
