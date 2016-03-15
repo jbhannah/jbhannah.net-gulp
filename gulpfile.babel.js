@@ -196,6 +196,7 @@ gulp.task('pages', ['nunjucks:filters'], function () {
     .pipe(htmlmin({
       collapseWhitespace: true,
       keepClosingSlash: true,
+      minifyJS: true,
     }))
     .pipe(gulp.dest(DEST))
     .pipe(livereload());
