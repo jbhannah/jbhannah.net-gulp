@@ -12,7 +12,7 @@
   <body>
     <div class="container">
       <header class="site-header">
-        <a class="__link" href="/" title="Homepage">
+        <a class="__link" href="{{ site.baseUrl }}" title="Homepage">
           <h1 class="__title">{{ site.title }}</h1>
           <p class="__subtitle">{{ site.subtitle }}</p>
         </a>
@@ -30,7 +30,7 @@
         {% endblock %}
       </main>
       <footer class="site-footer">
-        Copyright © {{ site.buildTime | format('YYYY') }} <a href="/" title="{{ site.title }}">{{ site.title }}</a>.
+        Copyright © {{ site.buildTime | format('YYYY') }} <a href="{{ site.baseUrl }}" title="{{ site.title }}">{{ site.title }}</a>.
         Some Rights Reserved (<a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>).
       </footer>
     </div>
