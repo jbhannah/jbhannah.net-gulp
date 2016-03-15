@@ -6,7 +6,7 @@
     {% block opengraph %}
       <meta property="og:url"   content="{{ site.baseUrl }}{{ page.permalink }}" />
       <meta property="og:type"  content="article" />
-      <meta property="og:title" content="{{ page.title }}" />
+      <meta property="og:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}" />
     {% endblock %}
   </head>
   <body>
