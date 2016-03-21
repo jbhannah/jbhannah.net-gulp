@@ -34,8 +34,8 @@ different sites.
      conventional place to start, but then you have to deal with having so many…
 
  - **Services**: Is Redis already running? What about Postgres? Back over to the
-     site that uses Neo4j—oh, I need to start both the development and test
-     instances[^1]—shoot, I left those running on the *other* site that uses
+     site that uses [Neo4j][]—oh, I need to start both the development and test
+     instances[^n4j]—shoot, I left those running on the *other* site that uses
      Neo4j, and now my development data is all mixed together. Keeping track of
      what's running, and for which sites, can be a pain, and often results in…
 
@@ -45,14 +45,28 @@ different sites.
 
  - **Cleanup**: Good luck keeping track of which gems or services were only
      installed for a single project that died off months ago and are just
-     cluttering up your system.[^2]
+     cluttering up your system.[^cleanup]
+
+## What we'll end up with
+
+ - **Four-command setup**: Pull and `cd`, bundle, migrate, boot up.
+
+ - **Persistent gems container**: No need to rebuild the entire image to install
+     a new gem, just `bundle install` in the container.
+
+ - **Persistent data**: Unlike with a separate VM, no losing your data if you
+     need to rebuild the image.
+
+ - **Minimal resource overhead**: Also unlike using separate VMs, Docker has
+     minimal overhead (albeit slightly more on OS X than Linux), so running
+     multiple development sites at once is much easier.
 
 ## Getting started with Docker
 
 If you're on a UNIX-based operating system, it's really easy to get Docker
-installed. If you're on Linux, just follow the official documentation for
+installed[^win]. If you're on Linux, just follow the official documentation for
 [Docker Engine][] and [Docker Compose][]; if you're on OS X, I recommend using
-[Homebrew][] to install [DLite][][^3], Docker, and Docker Compose:
+[Homebrew][] to install [DLite][][^dlite], Docker, and Docker Compose:
 
 ```bash
 $ brew install dlite docker docker-compose
@@ -62,19 +76,36 @@ $ dlite start
 
 ## The Dockerfile and Initializing Rails
 
-[^1]: It's a quirk of Rails and Neo4j development, I've found, that it works
+Yes, I know that there's an [official Rails Docker image][] that Every Docker
+Tutorial Ever uses; no, we're not going to use it here. The `onbuild` image
+requires rebuilding the entire image every time you want to install or update a
+gem, and while the non-`onbuild` image _can_ be configured to make this
+unnecessary, you're still tying yourself to rebuilding every time you want to
+update Rails. Also, while the images are much slimmer than they used to be,
+we're going to go even smaller by basing our image on the official [Alpine
+Linux][]-based Ruby image.
+
+```docker
+FROM ruby:2.3.0-alpine
+```
+
+
+
+[^n4j]: It's a quirk of Rails and Neo4j development, I've found, that it works
 better to have separate running instances of Neo4j for development and for
 testing. I'll go into further detail in a later post about Rails development
 with Neo4j.
 
-[^2]: This is an ongoing struggle for many developers and is by no means
+[^cleanup]: This is an ongoing struggle for many developers and is by no means
 exclusive to Rails development; I mention it here because it was one of the
 driving factors behind my construction of a Docker-based Rails development
 environment.
 
-[^3]: At the time of writing, DLite 2.0 is in beta and is backwards-incompatible
-with the 1.x branch. I've only used 1.x, so you're on your own if you want to
-try the 2.0 beta.
+[^win]: If you're on Windows, sorry, you're on your own for this part.
+
+[^dlite]: At the time of writing, DLite 2.0 is in beta and is
+backwards-incompatible with the 1.x branch. I've only used 1.x, so you're on
+your own if you want to try the 2.0 beta.
 
 [`pokesite`]: https://github.com/thetallgrassnet/pokesite
 [`lifeisleet`]: https://github.com/lifeisleet/lifeisleet
@@ -82,7 +113,10 @@ try the 2.0 beta.
 [Vagrant]: https://www.vagrantup.com/
 [Cloud9]: https://c9.io/
 [Docker]: https://www.docker.com/
+[Neo4j]: http://neo4j.com/
 [Docker Engine]: https://docs.docker.com/engine/installation/
 [Docker Compose]: https://docs.docker.com/compose/install/
 [Homebrew]: http://brew.sh/
 [DLite]: https://github.com/nlf/dlite
+[official Rails Docker image]: https://hub.docker.com/r/_/rails/
+[Alpine Linux]: http://www.alpinelinux.org/
