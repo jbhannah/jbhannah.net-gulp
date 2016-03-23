@@ -28,17 +28,26 @@ h4,
 h5,
 h6 {
   font-family: "Julius Sans One", "Helvetica Neue", sans-serif;
-  text-transform: uppercase;
 }
 
 pre {
   margin: 1rem 0;
   padding: 1rem;
-  background-color: #f7f7f7;
+  background-color: @block-bg;
   overflow: auto;
 }
 
 code {
   font-family: "Ubuntu Mono", "Inconsolata", "Courier New", monospace;
-  font-size: 0.9rem;
+  font-size: 0.9em;
+}
+
+b, strong {
+  line-height: 1;
+}
+
+aside {
+  padding: 1rem;
+  background-color: @block-bg;
+  border: 1px solid darken(@block-bg, 10%);
 }
