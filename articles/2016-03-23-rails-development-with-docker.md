@@ -361,7 +361,7 @@ $ docker-compose stop
 
 Both [`pokesite`][] and [`lifeisleet`][] use this structure for development, so
 refer to either project's `Dockerfile` and `docker-compose.yml`. `pokesite` is
-deployed on Heroku, and containers are the best approximation I've found of
+deployed on [Heroku][], and containers are the best approximation I've found of
 Heroku's architecture; now that I've moved to Docker for development
 environments, I'd bet it'll be a long time before I go back to local development
 for Rails.
@@ -406,4 +406,5 @@ version of `libxml2` included with Nokogiri won't build on musl.
 [Alpine package database]: https://pkgs.alpinelinux.org/packages
 [environment variables]: https://docs.docker.com/engine/userguide/networking/default_network/dockerlinks/#environment-variables
 [Guard]: http://guardgem.org/
+[Heroku]: https://www.heroku.com/
 [musl]: http://www.musl-libc.org/
