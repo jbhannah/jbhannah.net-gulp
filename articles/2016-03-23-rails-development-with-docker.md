@@ -11,7 +11,7 @@ various tools that try to make things easier—[RVM][], [Vagrant][],
 [Cloud9][]—I've finally settled on [Docker][] as my preferred basis for a solid,
 low-friction, reproducible Rails development environment.
 
-<aside class="notice">
+<aside>
 Note that this is only a guide to Rails development with Docker, not production
 deployment.
 </aside>
@@ -216,7 +216,7 @@ container, you can remove and re-create the container without having to
 reinstall all of the gems, and you don't have to rebuild the `web` image if you
 add or update any gems.
 
-<aside class="notice">
+<aside>
 If you have multiple Rails applications that you're working on, you can just
 copy the `Dockerfile` and `docker-comopse.yml`, and as long as you change `3001`
 to something else in the `web` container's ports configuration, you'll never run

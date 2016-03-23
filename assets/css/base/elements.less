@@ -33,7 +33,7 @@ h6 {
 pre {
   margin: 1rem 0;
   padding: 1rem;
-  background-color: #f7f7f7;
+  background-color: @block-bg;
 }
 
 code {
@@ -43,4 +43,10 @@ code {
 
 b, strong {
   line-height: 1;
+}
+
+aside {
+  padding: 1rem;
+  background-color: @block-bg;
+  border: 1px solid darken(@block-bg, 10%);
 }
