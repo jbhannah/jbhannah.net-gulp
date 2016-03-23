@@ -49,7 +49,8 @@ different sites.
 
 ## What we'll end up with
 
- - **Four-command setup**: Pull and `cd`, bundle, migrate, boot up.
+ - **No extra setup steps**: Pull and `cd`, bundle, migrate. Just like any other
+     Rails application.
 
  - **Persistent gems container**: No need to rebuild the entire image to install
      a new gem, just `bundle install` in the container.
@@ -73,6 +74,11 @@ $ brew install dlite docker docker-compose
 $ sudo dlite install
 $ dlite start
 ```
+
+If all you're doing is setting up a project that followed these instructions to
+create a `Dockerfile` and `docker-compose.yml`, you can skip all the way down to
+the last section. You've already installed everything you'll need on your local
+machine.
 
 ## The `Dockerfile`
 
@@ -167,7 +173,8 @@ db:
 
 That's all you need to have a PostgreSQL container that your application can
 link to, and which will hold on to its data as long as you don't delete the
-container with `docker rm` or `docker-compose rm`.
+container with `docker rm` or `docker-compose rm`. The same principle applies
+for any other services your app uses, such as Redis.
 
 Next, the application itself:
 
@@ -177,7 +184,7 @@ web:
   links:
     - db
   ports:
-    - "3000:3000"
+    - "3001:3000"
   volumes:
     - .:/usr/src/app
   volumes_from:
@@ -186,10 +193,11 @@ web:
 
 This one's a bit more complicated. It `build`s an image from the `Dockerfile` in
 the current directory, `link`s the container to the `db` container described
-above, opens port 3000 on the Docker host (`localhost` on Linux; `local.docker`
-on OS X with DLite) for connections to port 3000 in the container, mounts the
-current directory in the container at `/usr/src/app`, and uses volumes that are
-defined in our persistent `gems` container:
+above (and to any other services your app uses), opens port 3001 on the Docker
+host (`localhost` on Linux; `local.docker` on OS X with DLite) for connections
+to port 3000 in the container, mounts the current directory in the container at
+`/usr/src/app`, and uses volumes that are defined in our persistent `gems`
+container:
 
 ```yml
 gems:
@@ -204,9 +212,12 @@ container, we can remove and re-create the container without having to reinstall
 all of the gems, and we don't have to rebuild the `web` image if we add or
 update any gems.
 
-The best part of using Docker Compose is that you can define all of the external
-services used by your app as containers in `docker-compose.yml` and add them to
-the `links` section of the `web` container.
+<aside class="notice">
+If you have multiple Rails applications that you're working on, you can just
+copy the `Dockerfile` and `docker-comopse.yml`, and as long as you change `3001`
+to something else in the `web` container's ports configuration, you'll never run
+into any port conflicts when trying to run multiple apps at the same time.
+</aside>
 
 ### Initializing Rails (a brief detour)
 
@@ -243,16 +254,97 @@ hosts entry for `db` that points to the `db` container's IP address, and (among
 other things, but this is the one we want) a `DB_PORT_5432_TCP_PORT` environment
 variable with the exposed PostgreSQL port that the `db` container is listening
 on. To get our Rails application to connect to the `db` container, simply add
-the host and port to `config/database.yml` in the `default` section:
+the host and port and the `postgres` username to the `default` section of
+`config/database.yml`:
 
 ```yml
 default: &default
-  adapter: postgresql
-  encoding: unicode
-  pool: 5
+  ...
   host: db
-  port: <%= ENV['DB_1_PORT_5432_TCP_PORT'] %>
+  port: <%= ENV['DB_PORT_5432_TCP_PORT'] %>
   username: postgres
+```
+
+Another example: If you're using other services like Redis, you might already be
+using an environment variable like `REDIS_URL` to connect to it in production,
+and may have a `.env` file locally that sets that variable to your local Redis
+instance. To change this to use a Redis service container, add one to your
+`docker-compose.yml`:
+
+```yml
+redis:
+  image: redis
+
+web:
+  ...
+  links:
+    ...
+    - redis
+```
+
+and update your connection information (removing any local values of
+`REDIS_URL`, of course):
+
+```ruby
+ENV['REDIS_URL'] || "redis://redis:#{REDIS_PORT_6379_TCP_PORT}"
+```
+
+## Starting Up
+
+Now that your `Dockerfile` and `docker-compose.yml` are written, and your
+application is configured to connect to the containered services, all that's
+left before you can start your application are the typical Rails steps of
+bundling the gems and setting up the database. You can add these steps to your
+`bin/setup` script to condense them down to one command.
+
+```bash
+$ docker-compose run --rm web bundle
+$ docker-compose run --rm web bin/rake db:setup
+```
+
+`docker-compose run --rm web bundle` means, run the `bundle` command in a
+container specified by the `web` section of your `docker-compose.yml`, and
+remove the container afterward (otherwise your system will be littered with
+containers from one-off commands like this). Docker Compose will see that it
+needs to pull the `postgres` and `busybox` images for the `db` and `gems`
+containers, respectively, and will create and start the containers. It'll then
+see that it needs to build the image for your `web` container, pull the `ruby`
+base image, and run the commands in the Dockerfile. (If you followed the steps
+to initialize Rails, it's already done all of this.)
+
+After the images are pulled and built, all your gems will be installed into
+`/ruby_gems`, which the `gems` container manages as a volume, and the database
+setup will connect to the containered instance of PostgreSQL. The whole process
+takes longer than running it all directly on a local machine, but in the same
+number of commands. All it takes now to start up the application is:
+
+```bash
+$ docker-compose up
+```
+
+Once you see the usual message from WEBrick (or Puma, or whatever server you're
+using) that your application is ready, open up `http://localhost:3000` on Linux
+or `http://local.docker:3000` on OS X, and voila!  Your fully-containered,
+easily-reproducible Rails development environment is ready to go.
+Everything—`rake` tasks, `bundle` commands, the Rails console—works exactly the
+same as it does when developing directly on your local host; you just have to
+add `docker-compose run --rm web` to the beginning:
+
+```bash
+$ docker-compose run --rm web bin/rake routes
+$ docker-comopse run --rm web bundle update rails
+$ docker-compose run --rm web bin/rails c
+```
+
+Your application is mounted into the `web` container as a volume, so any changes
+you make are reflected immediately, just the same as with local development.
+Restarting the server works exactly the same way, too. You can even use
+[Guard][], with only minor changes to your `docker-compose.yml`'s `web` section:
+
+```yml
+  command: bin/guard -p -l 1
+  stdin_open: true
+  tty: true
 ```
 
 
@@ -273,7 +365,7 @@ development environment.
 backwards-incompatible with the 1.x branch. I've only used 1.x, so you're on
 your own if you want to try the 2.0 beta.
 
-[^nkg]: Alpine uses musl instead of glibc as its standard library, and the
+[^nkg]: Alpine uses [musl][] instead of glibc as its standard library, and the
 version of `libxml2` included with Nokogiri won't build on musl.
 
 [`pokesite`]: https://github.com/thetallgrassnet/pokesite
@@ -294,3 +386,5 @@ version of `libxml2` included with Nokogiri won't build on musl.
 [TZInfo]: https://tzinfo.github.io/
 [Alpine package database]: https://pkgs.alpinelinux.org/packages
 [environment variables]: https://docs.docker.com/engine/userguide/networking/default_network/dockerlinks/#environment-variables
+[Guard]: http://guardgem.org/
+[musl]: http://www.musl-libc.org/
