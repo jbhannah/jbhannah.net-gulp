@@ -1,5 +1,6 @@
 ---
 title: Rails Development with Docker
+date: 2016-03-23T11:33:00-07:00
 ---
 
 Lately I've found myself working on multiple personal Rails projects (namely,
@@ -49,8 +50,11 @@ different sites.
 
 ## What we'll end up with
 
- - **No extra setup steps**: Pull and `cd`, bundle, migrate. Just like any other
-     Rails application.
+ - **No extra setup steps**: Once Docker is installed, simply pull and `cd`,
+     bundle, migrate. Just like any other Rails application.
+
+ - **One-command start and stop**: No need to remember to start up and tear down
+     each service individually.
 
  - **Persistent gems container**: No need to rebuild the entire image to install
      a new gem, just `bundle install` in the container.
@@ -92,16 +96,16 @@ update Rails. Like I said, I'm lazy; I just want to do `bundle install` and
 we're going to go even smaller by basing our image on the official [Alpine
 Linux][]-based Ruby image.
 
-You need a `Dockerfile` to create an image, so let's go through ours one step at
+You need a `Dockerfile` to create an image, so let's go through this one step at
 a time. Every `Dockerfile` begins with a `FROM` statement:
 
 ```docker
 FROM ruby:2-alpine
 ```
 
-Our image uses the latest Alpine-based Ruby 2.x image as its base. Simple
-enough. But to install all our gems and get Rails up and running, we need to
-install a few dependencies:
+This image uses the latest Alpine-based Ruby 2.x image as its base. Simple
+enough. But to install all of your gems and get Rails up and running, it needs
+a few dependencies:
 
 ```docker
 RUN apk add --update --no-cache \
@@ -116,8 +120,8 @@ RUN bundle config build.nokogiri --use-system-libraries
 
 `build-base` (Alpine's equivalent to Debian/Ubuntu's `bulid-essential`) installs
 the basic utilities (`make`, `gcc`, &c.). The asset pipeline needs a JavaScript
-runtime, so we install `nodejs`. [TZInfo][] needs the timezone data provided by
-`tzdata`. In order to get [Nokogiri][] to build, we need to install Alpine's
+runtime, so install `nodejs`. [TZInfo][] needs the timezone data provided by
+`tzdata`. In order to get [Nokogiri][] to build, you need to install Alpine's
 `libxml2` and `libxslt` and their development headers and tell Bundler to build
 Nokogiri using the system libraries[^nkg]. Lastly, if you're using
 [PostgreSQL][], you'll need the headers to be able to install the `pg` gem;
@@ -136,7 +140,7 @@ RUN mkdir -p $APP_HOME
 WORKDIR $APP_HOME
 ```
 
-The application will live, and all commands we run through Docker will run, in
+The application will live, and all commands you run through Docker will run, in
 `/usr/src/app`.
 
 ```docker
@@ -149,8 +153,8 @@ Allow incoming connections on port 3000 to containers created from this image.
 ENV BUNDLE_PATH /ruby_gems
 ```
 
-Tell Bundler to install all our gems to `/ruby_gems`; we'll come back to this
-when we create `docker-compose.yml`.
+Tell Bundler to install all your gems to `/ruby_gems`; you'll come back to this
+when you create `docker-compose.yml`.
 
 ```docker
 CMD ["bin/rails", "s", "-b", "0.0.0.0"]
@@ -161,8 +165,8 @@ server listening on all interfaces.
 
 ## Docker Compose
 
-Now that we've written the `Dockerfile` for our application image, we need to
-put together the puzzle pieces of our application, our database, and our
+Now that you've written the `Dockerfile` for your application image, you need to
+put together the puzzle pieces of your application, your database, and your
 persistent gems container. Docker Compose makes this easy; just add the three
 containers to a file called `docker-compose.yml`. First, the database:
 
@@ -196,7 +200,7 @@ the current directory, `link`s the container to the `db` container described
 above (and to any other services your app uses), opens port 3001 on the Docker
 host (`localhost` on Linux; `local.docker` on OS X with DLite) for connections
 to port 3000 in the container, mounts the current directory in the container at
-`/usr/src/app`, and uses volumes that are defined in our persistent `gems`
+`/usr/src/app`, and uses volumes that are defined in your persistent `gems`
 container:
 
 ```yml
@@ -208,9 +212,9 @@ gems:
 
 All this container has to do is put the contents of `/ruby_gems` in a mounted
 volume and hang on to it. Because the gems all live outside of the `web`
-container, we can remove and re-create the container without having to reinstall
-all of the gems, and we don't have to rebuild the `web` image if we add or
-update any gems.
+container, you can remove and re-create the container without having to
+reinstall all of the gems, and you don't have to rebuild the `web` image if you
+add or update any gems.
 
 <aside class="notice">
 If you have multiple Rails applications that you're working on, you can just
@@ -249,13 +253,13 @@ telling it how to connect to the other services. When a Docker container
 specifies a link to another container, it gets a bunch of [environment
 variables][] and an entry in `/etc/hosts` that point to the linked container.
 
-In our application, the `web` container links to the `db` container, so it has a
-hosts entry for `db` that points to the `db` container's IP address, and (among
-other things, but this is the one we want) a `DB_PORT_5432_TCP_PORT` environment
-variable with the exposed PostgreSQL port that the `db` container is listening
-on. To get our Rails application to connect to the `db` container, simply add
-the host and port and the `postgres` username to the `default` section of
-`config/database.yml`:
+In this example, the `web` container links to the `db` container, so it has
+a hosts entry for `db` that points to the `db` container's IP address, and
+(among other things, but this is the one you want) a `DB_PORT_5432_TCP_PORT`
+environment variable with the exposed PostgreSQL port that the `db` container is
+listening on. To get your Rails application to connect to the `db` container,
+simply add the host and port and the `postgres` username to the `default`
+section of `config/database.yml`:
 
 ```yml
 default: &default
@@ -309,7 +313,7 @@ containers from one-off commands like this). Docker Compose will see that it
 needs to pull the `postgres` and `busybox` images for the `db` and `gems`
 containers, respectively, and will create and start the containers. It'll then
 see that it needs to build the image for your `web` container, pull the `ruby`
-base image, and run the commands in the Dockerfile. (If you followed the steps
+base image, and run the commands in the `Dockerfile`. (If you followed the steps
 to initialize Rails, it's already done all of this.)
 
 After the images are pulled and built, all your gems will be installed into
@@ -346,6 +350,21 @@ Restarting the server works exactly the same way, too. You can even use
   stdin_open: true
   tty: true
 ```
+
+As long as each of your sites has a different `web` port, you can run as many
+sites at once as your system can handle. When you're done, all it takes to shut
+down the application and all its services is:
+
+```bash
+$ docker-compose stop
+```
+
+Both [`pokesite`][] and [`lifeisleet`][] use this structure for development, so
+refer to either project's `Dockerfile` and `docker-compose.yml`. `pokesite` is
+deployed on Heroku, and containers are the best approximation I've found of
+Heroku's architecture; now that I've moved to Docker for development
+environments, I'd bet it'll be a long time before I go back to local development
+for Rails.
 
 
 
