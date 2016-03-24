@@ -56,8 +56,8 @@ different sites.
  - **One-command start and stop**: No need to remember to start up and tear down
      each service individually.
 
- - **Persistent gems container**: No need to rebuild the entire image to install
-     a new gem, just `bundle install` in the container.
+ - **[Persistent gems container][]**: No need to rebuild the entire image to
+     install a new gem, just `bundle install` in the container.
 
  - **Persistent data**: Unlike with a separate VM, no losing your data if you
      need to rebuild the image.
@@ -395,6 +395,7 @@ version of `libxml2` included with Nokogiri won't build on musl.
 [Cloud9]: https://c9.io/
 [Docker]: https://www.docker.com/
 [Neo4j]: http://neo4j.com/
+[Persistent gems container]: http://www.atlashealth.com/blog/2014/09/persistent-ruby-gems-docker-container/
 [Docker Engine]: https://docs.docker.com/engine/installation/
 [Docker Compose]: https://docs.docker.com/compose/install/
 [Homebrew]: http://brew.sh/
