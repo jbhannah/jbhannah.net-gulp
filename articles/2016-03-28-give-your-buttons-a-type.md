@@ -50,10 +50,13 @@ remembering to explicitly give every button a `type`:
 </form>
 ```
 
-Semantically speaking, it's generally a good idea to not always rely on the
-default `type` of an element. I tend to do it as a matter of personal
-preference, but also because of edge cases like this where the default behavior
-might not be what you expect.
+In terms of both semantics and usability, it's generally a good idea to not
+always rely on the default `type` of an element. I tend to be more explicit
+about attributes as a matter of personal preference, but also because of edge
+cases like this where the default behavior might not be what you expect. For
+buttons specifically, any button that is not the submit or reset button of the
+form should be given `type="button"`. Remember to do that upfront, and it will
+save you from a lot of weird and tricky-to-spot bugs later.
 
 
 
