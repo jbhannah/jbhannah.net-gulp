@@ -13,7 +13,7 @@ template: base.html
         <article role="article" class="article">
             <header class="content-header">
               <h2 class="__title">{{ article.title }}</h2>
-              <time class="__date" datetime="{{ article.date | format() }}" pubdate>{{ article.date | format('D MMMM YYYY') }}</time>
+              <time class="__date" datetime="{{ article.date | format() }}" pubdate>{{ article.date | format(site.dateFormat) }}</time>
             </header>
             <div class="content-body">
               <p>{{ article.excerpt | striptags }}</p>
