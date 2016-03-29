@@ -61,7 +61,7 @@ might not be what you expect.
 things in different inputs. Namely, in some inputs it fills in the current
 autocomplete value, where in others it submits the form immediately even if an
 autocomplete value is selected. Generally speaking, you should use a `button
-type="submit"` for this.
+type="submit"` to handle submitting forms on "Enter."
 
 [accordion]: http://angular-ui.github.io/bootstrap/#/accordion
 [dropdown]: http://angular-ui.github.io/bootstrap/#/dropdown
