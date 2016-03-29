@@ -33,20 +33,7 @@ import through from 'through2';
 import uglify from 'gulp-uglify';
 import yargs from 'yargs';
 
-const DEST = 'build';
-const PORT = 4000;
-const LR_PORT = 35729;
-
-let production = (process.env.NODE_ENV === 'production');
-
-let siteData = {
-  title: 'Jesse B. Hannah',
-  subtitle: 'jbhannah',
-  production: production,
-  baseUrl: production ? 'https://jbhannah.net' : 'http://localhost:' + PORT,
-  timezone: 'America/Phoenix',
-  buildTime: new Date()
-};
+import { DEST, PORT, LR_PORT, production, siteData } from './config';
 
 let env = nunjucks.configure('templates', {
   autoescape: false
