@@ -45,7 +45,7 @@ remembering to explicitly give every button a `type`:
 ```html
 <form>
     <input type="text" name="name" value="Jesse B. Hannah">
-    <button type="button" onclick="dismissModal()">Cancel</button>
+    <button **type="button"** onclick="dismissModal()">Cancel</button>
     <button type="submit">Submit</button>
 </form>
 ```

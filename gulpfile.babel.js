@@ -83,7 +83,8 @@ function renderContent() {
     html: true,
     typographer: true,
     highlight: function (code, lang) {
-      return lang ? hljs.highlight(lang, code).value : he.escape(he.unescape(code));
+      code = lang ? hljs.highlight(lang, code).value : he.escape(he.unescape(code));
+      return code.replace(/\*\*(.+)?\*\*/g, '<mark>$1</mark>');
     }
   }).use(MarkdownItFootnote);
 
