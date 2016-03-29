@@ -5,10 +5,10 @@ date: 2016-03-28T17:06:00-07:00
 
 I fixed a bug at work today where hitting the "Enter" key from a text input in
 an [accordion][] form, in addition to submitting the form via a `keydown`
-listener[^kd], collapses the current section of the accordion, opens the next
-section, and opens a [dropdown][] attached to a button in that section. If a
-user hits Enter a second time quickly enough, instead of submitting the text
-they entered in the first section of the form, the empty second section would be
+listener[^kd], would collapse the current section of the accordion, open the
+next section, and open a [dropdown][] attached to a button in that section. If a
+user hit Enter a second time quickly enough, instead of submitting the text they
+entered in the first section of the form, the empty second section would be
 submitted, taking the user to an entirely different page.
 
 This is an obvious usability problem with a less obvious, but also
