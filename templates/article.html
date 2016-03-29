@@ -11,10 +11,10 @@
 
 {% block content %}
 
-<article role="article" class="article">
+<article class="article">
   <header class="content-header">
     <h1 class="__title">{{ page.title }}</h1>
-    <time class="__date" datetime="{{ page.date | format() }}" pubdate>{{ page.date | format('D MMMM YYYY') }}</time>
+    <time class="__date" datetime="{{ page.date | format() }}">{{ page.date | format('D MMMM YYYY') }}</time>
   </header>
   <div class="content-body">
     {{ super() }}
