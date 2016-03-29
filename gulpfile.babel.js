@@ -19,6 +19,7 @@ import less from 'gulp-less';
 import LessPluginAutoprefix from 'less-plugin-autoprefix';
 import livereload from 'gulp-livereload';
 import MarkdownIt from 'markdown-it';
+import MarkdownItAnchor from 'markdown-it-anchor';
 import MarkdownItFootnote from 'markdown-it-footnote';
 import moment from 'moment';
 import morgan from 'morgan';
@@ -86,6 +87,9 @@ function renderContent() {
       code = lang ? hljs.highlight(lang, code).value : he.escape(he.unescape(code));
       return code.replace(/\*\*(.+)?\*\*/g, '<mark>$1</mark>');
     }
+  }).use(MarkdownItAnchor, {
+    level: 2,
+    permalink: true
   }).use(MarkdownItFootnote);
 
   return through.obj(

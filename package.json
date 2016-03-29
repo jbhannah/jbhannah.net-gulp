@@ -51,6 +51,7 @@
     "less-plugin-autoprefix": "1.5.1",
     "lodash-es": "4.6.1",
     "markdown-it": "6.0.0",
+    "markdown-it-anchor": "2.5.0",
     "markdown-it-footnote": "2.0.0",
     "moment": "2.12.0",
     "morgan": "1.7.0",

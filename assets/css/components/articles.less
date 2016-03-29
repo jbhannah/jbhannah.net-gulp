@@ -1,4 +1,27 @@
 article {
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    position: relative;
+
+    .header-anchor {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: -1em;
+      width: 1em;
+      font-size: 1rem;
+      text-decoration: none;
+      color: @color;
+    }
+
+    &:hover .header-anchor, .header-anchor:hover {
+      display: block;
+    }
+  }
+
   section.footnotes {
     font-size: 0.9rem;
   }
