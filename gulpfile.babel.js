@@ -199,7 +199,7 @@ gulp.task('less', function () {
 
 gulp.task('nunjucks:filters', function () {
   env.addFilter('format', function (str, formatString) {
-    return moment(str).format(formatString);
+    return moment.utc(str).format(formatString);
   });
 });
 
