@@ -15,7 +15,6 @@ import gutil from 'gulp-util';
 import he from 'he';
 import hljs from 'highlight.js';
 import htmlmin from 'gulp-htmlmin';
-import inlineSource from 'gulp-inline-source';
 import less from 'gulp-less';
 import LessPluginAutoprefix from 'less-plugin-autoprefix';
 import livereload from 'gulp-livereload';
@@ -208,9 +207,6 @@ gulp.task('pages', ['nunjucks:filters'], function () {
     .pipe(plumber({errorHandler: streamError}))
     .pipe(renderContent())
     .pipe(renderTemplate())
-    .pipe(gulpIf(production, inlineSource({
-      rootpath: DEST
-    })))
     .pipe(htmlmin({
       collapseWhitespace: true,
       keepClosingSlash: true,
