@@ -11,7 +11,6 @@ export const siteData = {
   subtitle: 'jbhannah',
   production: production,
   baseUrl: production ? 'https://jbhannah.net' : 'http://localhost:' + PORT,
-  timezone: 'America/Phoenix',
   buildTime: new Date(),
   dateFormat: 'D MMMM YYYY'
 };
