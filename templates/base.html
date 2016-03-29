@@ -30,7 +30,8 @@
         {% endblock %}
       </main>
       <footer class="site-footer">
-        Copyright © {{ site.buildTime | format('YYYY') }} <a href="{{ site.baseUrl }}" title="{{ site.title }}">{{ site.title }}</a>.
+        Copyright © <time datetime="{{ site.buildTime | format() }}" data-date-format="YYYY">{{ site.buildTime | format('YYYY') }}</time>
+        <a href="{{ site.baseUrl }}" title="{{ site.title }}">{{ site.title }}</a>.
         Some Rights Reserved (<a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>).
         Source code on <a href="https://github.com/jbhannah/jbhannah.net">GitHub</a>.
       </footer>
