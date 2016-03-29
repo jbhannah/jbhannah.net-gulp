@@ -1,6 +1,8 @@
 'use strict';
 
 import assign from 'lodash/object/assign';
+import babelify from 'babelify';
+import browserify from 'browserify';
 import buffer from 'vinyl-buffer';
 import connect from 'connect';
 import connectLivereload from 'connect-livereload';
@@ -168,6 +170,22 @@ gulp.task('clean', function () {
   return del(DEST);
 });
 
+gulp.task('js', function () {
+  let b = browserify({
+    entries: 'assets/js/app.js',
+    debug: !production
+  }).transform(babelify);
+
+  return b.bundle()
+    .pipe(source('app.js'))
+    .pipe(buffer())
+    .pipe(gulpIf(!production, sourcemaps.init({loadMaps: true})))
+    .pipe(uglify())
+    .pipe(gulpIf(!production, sourcemaps.write('.')))
+    .pipe(gulp.dest(DEST + '/assets/js'))
+    .pipe(livereload());
+});
+
 gulp.task('less', function () {
   return gulp.src(['./assets/css/main.less'], {base: '.'})
     .pipe(plumber({errorHandler: streamError}))
@@ -208,7 +226,7 @@ gulp.task('static', function () {
 });
 
 gulp.task('default', function (done) {
-  runSequence('clean', ['less', 'static', 'pages'], done);
+  runSequence('clean', ['js', 'less', 'static', 'pages'], done);
 });
 
 gulp.task('nunjucks:watch', function () {
@@ -235,6 +253,7 @@ gulp.task('serve', ['nunjucks:watch', 'default'], function () {
       console.log('Listening at http://localhost:' + port);
     });
 
+  gulp.watch(['./assets/js/**/*.js'], ['js']);
   gulp.watch(['./assets/css/**/*.less'], ['less']);
   if (production) {
     gulp.watch(['./assets/css/**/*.less'], ['pages']);
