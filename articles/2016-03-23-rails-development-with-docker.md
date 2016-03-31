@@ -219,9 +219,9 @@ add or update any gems.
 <aside>
 If you have multiple Rails applications that you're working on, you can just
 copy the <code>Dockerfile</code> and <code>docker-comopse.yml</code>, and as
-long as you change <code>3001</code> in the <code>web</code> container's ports
-configuration to something else, you'll never run into any port conflicts when
-trying to run multiple apps at the same time.
+long as you change <code>3001</code> in the <code>web</code> container's
+<code>ports</code> configuration to something else, you'll never run into any
+port conflicts when trying to run multiple apps at the same time.
 </aside>
 
 ### Initializing Rails (a brief detour)
