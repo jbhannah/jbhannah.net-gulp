@@ -116,7 +116,10 @@ function renderContent() {
         }
 
         file.data.page.template = 'article.html';
-        file.data.page.excerpt = contents.substr(contents.indexOf('<p>') + 3, contents.indexOf('</p>') - 3);
+        file.data.page.excerpt = contents
+          .slice(contents.indexOf('<p>'), contents.indexOf('</p>'))
+          .replace(/<sup class="footnote-ref">.*<\/sup>/, '')
+          .replace(/<a href="\S+">(.+?)<\/a>/g, '$1');
 
         site.articles.unshift(file.data.page);
       }
