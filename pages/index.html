@@ -13,7 +13,9 @@ template: base.html
         <article class="article">
             <header class="content-header">
               <h2 class="__title">{{ article.title }}</h2>
-              <time class="__date" datetime="{{ article.date | format() }}">{{ article.date | format(site.dateFormat) }}</time>
+              <p class="__date">
+                <time datetime="{{ article.date | format() }}">{{ article.date | format(site.dateFormat) }}</time>
+              </p>
             </header>
             <div class="content-body">
               <p>{{ article.excerpt | striptags }}</p>
