@@ -33,7 +33,7 @@ h6 {
 pre {
   margin: 1rem 0;
   padding: 1rem;
-  background-color: @block-bg;
+  background-color: lighten(@color, 82.5%);
   overflow: auto;
 
   mark {
@@ -54,12 +54,12 @@ b, strong {
 
 aside {
   padding: 1rem;
-  background-color: @block-bg;
-  border: 1px solid darken(@block-bg, 10%);
+  background-color: lighten(@color, 82.5%);
+  border: 1px solid lighten(@color, 70%);
 }
 
 blockquote {
-  border-left: 1px solid darken(@block-bg, 10%);
+  border-left: 1px solid lighten(@color, 70%);
   color: lighten(@color, 30%);
   margin-left: 1rem;
   padding-left: 1rem;
