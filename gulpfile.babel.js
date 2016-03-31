@@ -119,7 +119,9 @@ function renderContent() {
         file.data.page.excerpt = contents
           .slice(contents.indexOf('<p>'), contents.indexOf('</p>'))
           .replace(/<sup class="footnote-ref">.+?<\/sup>/, '')
-          .replace(/<a href="\S+">(.+?)<\/a>/g, '$1');
+          .replace(/<a href="\S+">(.+?)<\/a>/g, '$1')
+          + '<p><a href="' + file.data.page.permalink + '" '
+          + 'title="' + file.data.page.title + '">Read More…</a></p>';
 
         site.articles.unshift(file.data.page);
       }
