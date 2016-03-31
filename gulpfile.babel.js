@@ -117,7 +117,7 @@ function renderContent() {
 
         file.data.page.template = 'article.html';
         file.data.page.excerpt = contents
-          .slice(contents.indexOf('<p>'), contents.indexOf('</p>'))
+          .slice(contents.indexOf('<p>'), contents.indexOf('</p>') + 4)
           .replace(/<sup class="footnote-ref">.+?<\/sup>/, '')
           .replace(/<a href="\S+">(.+?)<\/a>/g, '$1')
           + '<p><a href="' + file.data.page.permalink + '" '
