@@ -13,7 +13,7 @@
 
 <article class="article">
   <header class="content-header">
-    <h1 class="__title">{{ page.title }}</h1>
+    <h1 class="__title"><a href="{{ page.permalink }}" title="{{ page.title }}">{{ page.title }}</a></h1>
     <p class="__date">
       <time datetime="{{ page.date | format() }}">{{ page.date | format('D MMMM YYYY') }}</time>
     </p>
