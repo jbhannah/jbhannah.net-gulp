@@ -3,9 +3,8 @@
 import assign from 'lodash/object/assign';
 import babelify from 'babelify';
 import browserify from 'browserify';
+import browserSync from 'browser-sync';
 import buffer from 'vinyl-buffer';
-import connect from 'connect';
-import connectLivereload from 'connect-livereload';
 import cssnano from 'gulp-cssnano';
 import del from 'del';
 import frontMatter from 'front-matter';
@@ -17,7 +16,6 @@ import hljs from 'highlight.js';
 import htmlmin from 'gulp-htmlmin';
 import less from 'gulp-less';
 import LessPluginAutoprefix from 'less-plugin-autoprefix';
-import livereload from 'gulp-livereload';
 import MarkdownIt from 'markdown-it';
 import MarkdownItAnchor from 'markdown-it-anchor';
 import MarkdownItFootnote from 'markdown-it-footnote';
@@ -34,7 +32,7 @@ import through from 'through2';
 import uglify from 'gulp-uglify';
 import yargs from 'yargs';
 
-import { DEST, PORT, LR_PORT, production, siteData } from './config';
+import { DEST, PORT, UI_PORT, production, siteData } from './config';
 
 let env = nunjucks.configure('templates', {
   autoescape: false
@@ -43,6 +41,8 @@ let env = nunjucks.configure('templates', {
 let lessOpts = {};
 let autoprefix = new LessPluginAutoprefix();
 lessOpts.plugins = [autoprefix];
+
+let bs = browserSync.create();
 
 function streamError(err) {
   gutil.beep();
@@ -174,7 +174,7 @@ gulp.task('js', function () {
     .pipe(uglify())
     .pipe(gulpIf(!production, sourcemaps.write('.')))
     .pipe(gulp.dest(DEST + '/assets/js'))
-    .pipe(livereload());
+    .pipe(bs.stream());
 });
 
 gulp.task('less', function () {
@@ -185,7 +185,7 @@ gulp.task('less', function () {
     .pipe(cssnano())
     .pipe(gulpIf(!production, sourcemaps.write('.')))
     .pipe(gulp.dest(DEST))
-    .pipe(livereload());
+    .pipe(bs.stream({match: '**/*.css'}));
 });
 
 gulp.task('nunjucks:filters', function () {
@@ -205,7 +205,7 @@ gulp.task('pages', ['nunjucks:filters'], function () {
       minifyJS: true,
     }))
     .pipe(gulp.dest(DEST))
-    .pipe(livereload());
+    .pipe(bs.stream({once: true}));
 });
 
 gulp.task('static', function () {
@@ -226,20 +226,16 @@ gulp.task('nunjucks:watch', function () {
 
 gulp.task('serve', ['nunjucks:watch', 'default'], function () {
   let port = yargs.argv.port || yargs.argv.p || PORT;
+  let uiPort = yargs.argv.uiport || yargs.argv.u || UI_PORT;
 
-  livereload.listen({
-    port: LR_PORT
+  bs.init({
+    server: DEST,
+    port: PORT,
+    ui: {
+      port: UI_PORT
+    },
+    middleware: [morgan('dev')]
   });
-
-  connect()
-    .use(morgan('dev'))
-    .use(connectLivereload({
-      port: LR_PORT
-    }))
-    .use(serveStatic(DEST))
-    .listen(port, function () {
-      console.log('Listening at http://localhost:' + port);
-    });
 
   gulp.watch(['./assets/js/**/*.js'], ['js']);
   gulp.watch(['./assets/css/**/*.less'], ['less']);
