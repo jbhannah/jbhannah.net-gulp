@@ -112,7 +112,7 @@ function renderContent() {
       if (path.relative('.', file.path).startsWith('articles')) {
         if (!file.data.page.hasOwnProperty('date')) {
           file.data.page.date = path.basename(file.path, path.extname(file.path))
-            .match(/\d{4}-\d{2}-\d{2}/)[0];
+            .match(/\d{4}-\d{2}-\d{2}/)[0] + 'T00:00:00-07:00';
         }
 
         file.data.page.template = 'article.html';
