@@ -11,7 +11,7 @@ template: base.html
     <li class="__article">
       <article class="article">
         <header class="content-header">
-          <h2 class="__title"><a href="{{ article.permalink }}" title="{{ article.title }}">{{ article.title }}</a></h2>
+          <h2 class="__title"><a href="{{ article.link }}" title="{{ article.title }}">{{ article.title }}</a></h2>
           <p class="__date">
             <time datetime="{{ article.date | format() }}">{{ article.date | format(site.dateFormat) }}</time>
           </p>

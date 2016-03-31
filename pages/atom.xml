@@ -5,7 +5,7 @@ template: atom.xml
 {%- for article in site.articles %}
   <entry>
     <title>{{ article.title }}</title>
-    <link href="{{ site.baseUrl }}{{ article.permalink }}" />
+    <link href="{{ site.baseUrl }}{{ article.link }}" />
     <updated>{{ article.date | format() }}</updated>
     <id>{{ site.baseUrl }}{{ article.permalink }}</id>
     <summary type="html"><![CDATA[
