@@ -117,7 +117,7 @@ function renderContent() {
 
         file.data.page.template = 'article.html';
 
-        if (file.data.page.link) {
+        if (file.data.page.hasOwnProperty('link')) {
           file.data.page.excerpt = contents;
         } else {
           file.data.page.excerpt = contents
@@ -130,7 +130,7 @@ function renderContent() {
           + '" title="' + file.data.page.title + '">'
           + (file.data.page.link ? 'Permalink' : 'Read More…') + '</a></p>';
 
-        if (!file.data.page.link) {
+        if (!file.data.page.hasOwnProperty('link')) {
           file.data.page.link = file.data.page.permalink;
         }
 
