@@ -9,19 +9,17 @@ template: base.html
 <ul class="article-list">
   {% for article in site.articles %}
     <li class="__article">
-      <a href="{{ article.permalink }}" title="{{ article.title }}">
-        <article class="article">
-            <header class="content-header">
-              <h2 class="__title">{{ article.title }}</h2>
-              <p class="__date">
-                <time datetime="{{ article.date | format() }}">{{ article.date | format(site.dateFormat) }}</time>
-              </p>
-            </header>
-            <div class="content-body">
-              <p>{{ article.excerpt | striptags }}</p>
-            </div>
-        </article>
-      </a>
+      <article class="article">
+        <header class="content-header">
+          <h2 class="__title"><a href="{{ article.link }}" title="{{ article.title }}">{{ article.title }}</a></h2>
+          <p class="__date">
+            <time datetime="{{ article.date | format() }}">{{ article.date | format(site.dateFormat) }}</time>
+          </p>
+        </header>
+        <div class="content-body">
+          {{ article.excerpt }}
+        </div>
+      </article>
     </li>
   {% endfor %}
 </ul>

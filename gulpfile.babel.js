@@ -112,11 +112,27 @@ function renderContent() {
       if (path.relative('.', file.path).startsWith('articles')) {
         if (!file.data.page.hasOwnProperty('date')) {
           file.data.page.date = path.basename(file.path, path.extname(file.path))
-            .match(/\d{4}-\d{2}-\d{2}/)[0];
+            .match(/\d{4}-\d{2}-\d{2}/)[0] + 'T00:00:00-07:00';
         }
 
         file.data.page.template = 'article.html';
-        file.data.page.excerpt = contents.substr(contents.indexOf('<p>') + 3, contents.indexOf('</p>') - 3);
+
+        if (file.data.page.hasOwnProperty('link')) {
+          file.data.page.excerpt = contents;
+        } else {
+          file.data.page.excerpt = contents
+            .slice(contents.indexOf('<p>'), contents.indexOf('</p>') + 4)
+            .replace(/<sup class="footnote-ref">.+?<\/sup>/, '')
+            .replace(/<a href="\S+">(.+?)<\/a>/g, '$1');
+        }
+
+        file.data.page.excerpt += '<p><a href="' + file.data.page.permalink
+          + '" title="' + file.data.page.title + '">'
+          + (file.data.page.link ? 'Permalink' : 'Read More…') + '</a></p>';
+
+        if (!file.data.page.hasOwnProperty('link')) {
+          file.data.page.link = file.data.page.permalink;
+        }
 
         site.articles.unshift(file.data.page);
       }
