@@ -22,7 +22,7 @@
     "url": "https://github.com/jbhannah/jbhannah.net.git"
   },
   "scripts": {
-    "build": "gulp",
+    "build": "gulp build",
     "start": "gulp serve",
     "clean": "gulp clean"
   },

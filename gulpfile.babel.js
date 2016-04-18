@@ -229,7 +229,7 @@ gulp.task('static', function () {
     .pipe(gulp.dest(DEST));
 });
 
-gulp.task('default', function (done) {
+gulp.task('build', function (done) {
   runSequence('clean', ['js', 'less', 'static', 'pages'], done);
 });
 
@@ -240,7 +240,7 @@ gulp.task('nunjucks:watch', function () {
   });
 });
 
-gulp.task('serve', ['nunjucks:watch', 'default'], function () {
+gulp.task('serve', ['nunjucks:watch', 'build'], function () {
   let port = yargs.argv.port || yargs.argv.p || PORT;
   let uiPort = yargs.argv.uiport || yargs.argv.u || UI_PORT;
 
@@ -258,3 +258,5 @@ gulp.task('serve', ['nunjucks:watch', 'default'], function () {
   gulp.watch(['./articles/*.md', './pages/*', './templates/*'], ['pages']);
   gulp.watch(['./static/**/*'], ['static']);
 });
+
+gulp.task('default', ['serve']);
