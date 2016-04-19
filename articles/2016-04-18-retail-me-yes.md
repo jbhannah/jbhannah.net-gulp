@@ -21,8 +21,8 @@ for me to take, and one that plays to my strengths.
 
 
 
-[^php]: Not just to not be developing in PHP every day anymore. Although I will
-admit, that's part of it.
+[^php]: Not just to [not be developing in PHP every day anymore][]. Although I
+will admit, that's part of it.
 
 [Giftcard Zen]: https://giftcardzen.com/
 [It's]: https://github.com/thetallgrassnet/pokesite
@@ -31,3 +31,4 @@ admit, that's part of it.
 [long time]: https://github.com/jbhannah/jbhannah-rails
 [Cyberitas Technologies]: http://www.cyberitas.com/
 [my podcast]: http://www.lifeisleet.com/
+[not be developing in PHP every day anymore]: https://eev.ee/blog/2012/04/09/php-a-fractal-of-bad-design/
