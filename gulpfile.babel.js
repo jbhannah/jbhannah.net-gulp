@@ -123,7 +123,7 @@ function renderContent() {
           file.data.page.excerpt = contents
             .slice(contents.indexOf('<p>'), contents.indexOf('</p>') + 4)
             .replace(/<sup class="footnote-ref">.+?<\/sup>/, '')
-            .replace(/<a href="\S+">(.+?)<\/a>/g, '$1');
+            .replace(/<a href="\S+">([\S\s]+?)<\/a>/g, '$1');
         }
 
         file.data.page.excerpt += '<p><a href="' + file.data.page.permalink
