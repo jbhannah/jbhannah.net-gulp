@@ -7,7 +7,7 @@ Homepage and weblog of Jesse B. Hannah.
 
 ## Requirements
 
-* Node.js 5.x
+* Node.js 6.x
 * npm
 * `gulp-cli`
 
