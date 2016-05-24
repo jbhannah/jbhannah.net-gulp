@@ -55,7 +55,7 @@
     "morgan": "1.7.0",
     "normalize.css": "4.1.1",
     "nunjucks": "2.4.2",
-    "run-sequence": "1.2.0",
+    "run-sequence": "1.2.1",
     "serve-static": "1.10.2",
     "through2": "2.0.1",
     "vinyl-buffer": "1.0.0",
