@@ -50,7 +50,7 @@
     "lodash-es": "4.13.1",
     "markdown-it": "7.0.0",
     "markdown-it-anchor": "2.5.0",
-    "markdown-it-footnote": "2.0.0",
+    "markdown-it-footnote": "3.0.0",
     "moment": "2.13.0",
     "morgan": "1.7.0",
     "normalize.css": "4.1.1",
