@@ -45,7 +45,7 @@
     "gulp-uglify": "1.5.4",
     "gulp-util": "3.0.7",
     "he": "1.1.0",
-    "highlight.js": "9.4.0",
+    "highlight.js": "9.5.0",
     "less-plugin-autoprefix": "1.5.1",
     "lodash-es": "4.13.1",
     "markdown-it": "7.0.0",
