@@ -33,7 +33,7 @@
     "babelify": "7.3.0",
     "browser-sync": "2.13.0",
     "browserify": "13.0.1",
-    "del": "2.2.0",
+    "del": "2.2.1",
     "front-matter": "2.1.0",
     "gulp": "3.9.1",
     "gulp-cssnano": "2.1.2",
