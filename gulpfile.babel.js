@@ -1,6 +1,6 @@
 'use strict';
 
-import assign from 'lodash/object/assign';
+import assign from 'lodash.assign';
 import babelify from 'babelify';
 import browserify from 'browserify';
 import browserSync from 'browser-sync';
