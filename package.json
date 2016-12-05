@@ -51,7 +51,7 @@
     "markdown-it": "8.2.1",
     "markdown-it-anchor": "2.5.0",
     "markdown-it-footnote": "3.0.0",
-    "moment": "2.15.1",
+    "moment": "2.17.1",
     "morgan": "1.7.0",
     "normalize.css": "4.2.0",
     "nunjucks": "2.5.1",
@@ -60,7 +60,7 @@
     "through2": "2.0.3",
     "vinyl-buffer": "1.0.0",
     "vinyl-source-stream": "1.1.0",
-    "yargs": "6.3.0"
+    "yargs": "6.5.0"
   },
   "engines": {
     "node": "6"
