@@ -1,7 +1,5 @@
 language: node_js
-cache:
-  directories:
-  - node_modules
+cache: yarn
 env:
 - CXX=g++-4.8
 addons:
@@ -10,7 +8,7 @@ addons:
     - ubuntu-toolchain-r-test
     packages:
     - g++-4.8
-script: npm run-script build --production
+script: yarn run build -- --production
 deploy:
   provider: s3
   access_key_id: AKIAI5FN7IT2CYQDYKQQ
