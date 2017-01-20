@@ -62,8 +62,5 @@
     "vinyl-source-stream": "1.1.0",
     "yargs": "6.6.0"
   },
-  "engines": {
-    "node": "6"
-  },
   "private": true
 }
