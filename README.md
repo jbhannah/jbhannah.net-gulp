@@ -1,5 +1,7 @@
 # jbhannah.net
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/jbhannah/jbhannah.net.svg)](https://greenkeeper.io/)
+
 [![Build Status](https://img.shields.io/travis/jbhannah/jbhannah.net.svg)](https://travis-ci.org/jbhannah/jbhannah.net)
 [![Dependency Status](https://david-dm.org/jbhannah/jbhannah.net/status.svg)](https://david-dm.org/jbhannah/jbhannah.net#info=dependencies)
 
